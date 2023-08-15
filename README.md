@@ -10,3 +10,4 @@
 
 ## When working on something
 - create a branch in github switch to that branch and start working
+- If you have something important to add like docs/assets add it to main branch
