@@ -1,7 +1,9 @@
+import HomeFirst from "../components/HomeFirst";
+
 const Home = () => {
     return (  
         <div className="home">
-            Home
+            <HomeFirst></HomeFirst>
         </div>
     );
 }

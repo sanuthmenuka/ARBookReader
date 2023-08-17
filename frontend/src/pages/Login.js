@@ -1,5 +1,9 @@
 import { useState } from "react"
 import { useLogin } from "../hooks/useLogin"
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Container from "react-bootstrap/esm/Container";
+
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -13,25 +17,33 @@ const Login = () => {
   }
 
   return (
-    <form className="login" onSubmit={handleSubmit}>
+    <Container>
+    <Form className="login" onSubmit={handleSubmit}>
       <h3>Log In</h3>
-      
-      <label>Email address:</label>
-      <input 
+      <Form.Group className="lg-1"> 
+      <Form.Label>Email address:</Form.Label>
+      <Form.Control
         type="email" 
         onChange={(e) => setEmail(e.target.value)} 
         value={email} 
       />
-      <label>Password:</label>
-      <input 
+      </Form.Group>
+     
+     <Form.Group className="lg-1"> 
+      <Form.Label>Password:</Form.Label>
+      <Form.Control
         type="password" 
         onChange={(e) => setPassword(e.target.value)} 
         value={password} 
       />
+     </Form.Group>
+      
 
-      <button disabled={isLoading}>Log in</button>
+      <Button variant="primary" disabled={isLoading}>Log in</Button>
       {error && <div className="error">{error}</div>}
-    </form>
+    </Form>
+    </Container>
+    
   )
 }
 

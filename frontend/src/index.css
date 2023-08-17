@@ -6,7 +6,12 @@
   --primary: #b637ad;
   --error: #e7195a;
 }
+* {
+  box-sizing: border-box;
+}
+
 body {
+  max-width: fit-content;
   background: #f1f1f1;
   margin: 0;
   font-family: "Poppins";
@@ -17,19 +22,25 @@ header {
  
 }
 header .container {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0px 20px;
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  font-size: 3vw;
+}
+
+header .container button{
+  
+  font-size: 1vw;
 }
 
 header a {
   color: #333;
   text-decoration:none ;
-  margin-right: 50px;
+  margin-right: 0px;
 }
 .nav-link {
   color: #fff; /* Text color for the links */
@@ -40,24 +51,24 @@ header a {
   margin-right: 10px; /* Add margin to create a gap between links */
 }
 .pages{
-  max-width: 1400px;
+  background-color: #fff;
+  max-width: 100%;
   padding: 20px;
   margin: 0 auto;
 }
 
-.home{
-  background-color: #e7195a;
-}
 
 /* homepage */
 .home {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 100px;
+  
+  display: flex;
+  padding: 60px;
+  margin:0;
 }
 
 label, input {
   display: block;
+  
 }
 input {
   padding: 10px;
@@ -92,6 +103,7 @@ input.error {
 /* navbar */
 nav {
   display: flex;
+  width: ;
   align-items: center;
 }
 nav a {

@@ -6,7 +6,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Publish from './pages/Publish'
-import Navbar from './components/Navbar'
+import Navtop from './components/Navbar'
 import Downloadbooks from './pages/Downloadbooks'
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        <Navtop />
         <div className="pages">
           <Routes>
             <Route 

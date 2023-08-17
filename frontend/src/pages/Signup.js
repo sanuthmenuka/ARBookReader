@@ -1,6 +1,13 @@
 import { useState } from "react"
 import { useSignup } from "../hooks/useSignup"
 
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Container from "react-bootstrap/esm/Container";
+import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/esm/Row"
+
+
 const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,25 +20,41 @@ const Signup = () => {
   }
 
   return (
-    <form className="signup" onSubmit={handleSubmit}>
+    <Container>
       <h3>Sign Up</h3>
+      <Form onSubmit={handleSubmit}>
       
-      <label>Email address:</label>
-      <input 
+      <Col xs="auto">
+       
+        <Form.Label>Email address:</Form.Label>
+      <Form.Control 
         type="email" 
         onChange={(e) => setEmail(e.target.value)} 
         value={email} 
       />
-      <label>Password:</label>
-      <input 
+      </Col>
+      
+      <Col xs="auto">
+          <Form.Label>Password:</Form.Label>
+      <Form.Control 
         type="password" 
         onChange={(e) => setPassword(e.target.value)} 
         value={password} 
+        
       />
-
-      <button disabled={isLoading}>Sign up</button>
+      </Col>
+      
+      
+      <Button variant='primary' disabled={isLoading}>Sign up</Button>
       {error && <div className="error">{error}</div>}
-    </form>
+      
+      
+      
+
+      
+    </Form>
+    </Container>
+    
   )
 }
 
