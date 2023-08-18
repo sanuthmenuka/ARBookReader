@@ -45,7 +45,7 @@ const Signup = () => {
       </Col>
       
       
-      <Button variant='primary' disabled={isLoading}>Sign up</Button>
+      <Button type="submit" variant='primary' disabled={isLoading}>Sign up</Button>
       {error && <div className="error">{error}</div>}
       
       
