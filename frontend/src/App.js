@@ -8,6 +8,8 @@ import Signup from './pages/Signup'
 import Publish from './pages/Publish'
 import Navtop from './components/Navbar'
 import Downloadbooks from './pages/Downloadbooks'
+import About from './pages/About'
+import Footer from './components/Footer'
 
 function App() {
   const { user } = useAuthContext()
@@ -35,16 +37,24 @@ function App() {
             />
 
             <Route
-              path="/publish" element=<Publish/>>
+              path="/publish" element={user ?<Publish/>:<Navigate  to="/Publish.js"/> }>
             </Route>
 
             <Route
-            path="/downloadbooks" element=<Downloadbooks/>>
+            path="/downloadbooks" element={user ?<Downloadbooks/>:<Navigate  to="/Downloadbooks.js"/> }>
 
             </Route>
+
+
+            <Route
+            path="/about" element={user ?<About/>:<Navigate  to="/About.js"/> }>
+
+            </Route>
+           
             
           </Routes>
         </div>
+        <Footer/>
       </BrowserRouter>
     </div>
   );

@@ -14,7 +14,7 @@ const loginUser=async(req,res)=>{
 
     try{
         const user=await User.login(email,password)
-        console.log(email,password)
+        
         //create token
         const token=createToken(user._id)//user is a document created by mongoose
         res.status(200).json({email,token})

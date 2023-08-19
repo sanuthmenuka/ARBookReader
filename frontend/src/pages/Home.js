@@ -1,10 +1,13 @@
-import HomeFirst from "../components/HomeFirst";
+import { Container } from "@mui/material";
+import ImageOverlay from "../components/ImageOverlay";
 
 const Home = () => {
     return (  
-        <div className="home">
-            <HomeFirst></HomeFirst>
-        </div>
+       <Container>
+            <ImageOverlay></ImageOverlay>
+       </Container>
+            
+        
     );
 }
  

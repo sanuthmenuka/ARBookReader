@@ -24,9 +24,9 @@ import Button from '@mui/material/Button';
 const drawerWidth = 240;
 const navItems = [
   { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
-  { label: 'Read', to: '/' }, 
+  { label: 'Read', to: '/downloadbooks' }, 
   { label: 'AR', to: '/' },
-  {label: 'About', to: '/'}
+  {label: 'About', to: '/about'}
 ];
 
 
@@ -54,9 +54,9 @@ const  Navtop=(props) =>{
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-    <Typography variant="h6" sx={{ my: 2 }}>
+    <Button component={Link} to="/" variant="h6" sx={{ my: 2 }}>
        PIXIE
-      </Typography>
+      </Button>
 
      
       <Divider />
@@ -112,7 +112,7 @@ const  Navtop=(props) =>{
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-           PIXIE
+          <Link to='/' style={{textDecoration:'none',color:'inherit'}}>PIXIE</Link>
           </Typography>
           {user &&(
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
