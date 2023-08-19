@@ -9,15 +9,9 @@ import { Button } from '@mui/material';
 
 
 
-const imageProps = {
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  image: "../Assets/herohome.jpeg",
-  imageText: "Hardcoded Image",
-  linkText: "Learn More",
-  title: "Hardcoded Title",
-};
 
-function ImageOverlay() {
+
+function ImageOverlayHome() {
   
 
   return (
@@ -54,4 +48,4 @@ with our award winning e-library</Typography>
     
   );
 }
-export default ImageOverlay;
+export default ImageOverlayHome;

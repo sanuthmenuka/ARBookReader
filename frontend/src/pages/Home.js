@@ -1,10 +1,10 @@
 import { Container } from "@mui/material";
-import ImageOverlay from "../components/ImageOverlay";
+import ImageOverlayHome from "../components/ImageOverlayHome";
 
 const Home = () => {
     return (  
        <Container>
-            <ImageOverlay></ImageOverlay>
+            <ImageOverlayHome></ImageOverlayHome>
        </Container>
             
         
