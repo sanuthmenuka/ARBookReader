@@ -37,7 +37,8 @@ function App() {
             />
 
             <Route
-              path="/publish" element={user ?<Publish/>:<Navigate  to="/Publish.js"/> }>
+            //changed user to !user since I don't have an account at the moment
+              path="/publish" element={!user ?<Publish/>:<Navigate  to="/Publish.js"/> }>
             </Route>
 
             <Route
@@ -54,7 +55,7 @@ function App() {
             
           </Routes>
         </div>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </div>
   );

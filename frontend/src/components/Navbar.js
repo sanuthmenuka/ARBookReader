@@ -78,11 +78,14 @@ const  Navtop=(props) =>{
 
       {!user && (
         <List>
-        <Button component={Link} to="/login" sx={{ ...linkStyles }}>
+            <Button component={Link} to="/login" sx={{ ...linkStyles }}>
               Login
             </Button>
             <Button component={Link} to="/signup" sx={{ ...linkStyles }}>
               Sign Up
+            </Button>
+            <Button component={Link} to="/publish" sx={{ ...linkStyles }}>
+              Publish
             </Button>
            
         </List>
@@ -134,6 +137,9 @@ const  Navtop=(props) =>{
             </Button>
             <Button component={Link} to="/signup" sx={{ ...linkStyles }}>
               Sign Up
+            </Button>
+            <Button component={Link} to="/publish" sx={{ ...linkStyles }}>
+              Publish
             </Button>
            
             
