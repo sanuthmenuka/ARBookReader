@@ -4,11 +4,11 @@ import ImageOverlayHome from "../components/ImageOverlayHome";
 
 const Home = () => {
     return (
-        <Box   className='home' display='flex' justifyContent='center' sx={{height:'100%'}}>
+        <Box   className='home' display='flex' flexDirection='column' alignItems='center'  sx={{height:'100%'}}>
         
-             <ImageOverlayHome/>
+             <ImageOverlayHome></ImageOverlayHome>
              <Typography component='div'>
-                
+                hi
              </Typography>
              
         

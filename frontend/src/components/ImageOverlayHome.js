@@ -19,7 +19,6 @@ function ImageOverlayHome() {
       className='imageoverlay'
       component='div'
       sx={{
-        position: 'fixed',
         width: '90%',
         height: '50%',
         backgroundImage: `url(${herohome})`,
