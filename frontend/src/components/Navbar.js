@@ -94,7 +94,7 @@ const  Navtop=(props) =>{
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       <AppBar component="nav" sx={{ color: 'black', backgroundColor: 'white' }}>
         <Toolbar>

@@ -10,16 +10,18 @@ import Navtop from './components/Navbar'
 import Downloadbooks from './pages/Downloadbooks'
 import About from './pages/About'
 import Footer from './components/Footer'
+import { Box, Container } from '@mui/material'
 
 function App() {
   const { user } = useAuthContext()
   
 
   return (
-    <div className="App">
+    <Box className="App" sx={{ height: '100vh',display:'flex',flexDirection:'column' }}>
       <BrowserRouter>
         <Navtop />
-        <div className="pages">
+    
+          <Box className='pages' sx={{display:'flex',flexFlow:'column',height:'100%'}}>
           <Routes>
             <Route 
               path="/" 
@@ -53,10 +55,12 @@ function App() {
            
             
           </Routes>
-        </div>
+        </Box>
+      
+        
         <Footer/>
       </BrowserRouter>
-    </div>
+    </Box>
   );
 }
 
