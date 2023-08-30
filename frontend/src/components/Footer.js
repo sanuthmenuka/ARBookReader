@@ -31,9 +31,8 @@ export default function Footer() {
           sx={{
             py: 3,
             px: 2,
-            mt: 'auto',
-            position:'fixed',
             bottom:0,
+            mt:'auto',
             width:'100%',
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'

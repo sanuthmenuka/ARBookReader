@@ -1,10 +1,8 @@
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import herohome from '../Assets/herohome.jpeg'
-import { Card, CardContent, CardMedia, Container, IconButton, ImageList } from '@mui/material';
 import { Button} from '@mui/material';
 
 
@@ -18,8 +16,9 @@ function ImageOverlayHome() {
       display='flex'
       className='imageoverlay'
       component='div'
+      flexShrink='0'
       sx={{
-        width: '90%',
+        width: '95%',
         height: '50%',
         backgroundImage: `url(${herohome})`,
         backgroundPosition:'center center',

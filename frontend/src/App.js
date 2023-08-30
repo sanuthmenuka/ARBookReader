@@ -11,6 +11,9 @@ import Downloadbooks from './pages/Downloadbooks'
 import About from './pages/About'
 import Footer from './components/Footer'
 import { Box, Container } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material';
+
+
 
 function App() {
   const { user } = useAuthContext()
@@ -58,7 +61,7 @@ function App() {
         </Box>
       
         
-        <Footer/>
+        
       </BrowserRouter>
     </Box>
   );
