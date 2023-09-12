@@ -17,6 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Avatar } from '@mui/material';
 
 
 
@@ -25,8 +26,11 @@ const drawerWidth = 240;
 const navItems = [
   { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
   { label: 'Read', to: '/downloadbooks' }, 
-  { label: 'AR', to: '/' },
-  {label: 'About', to: '/about'}
+  { label: 'AR', to: '/ar' },
+  {label: 'About', to: '/about'},
+  //Get an image of a user from a website just to check the frontend
+  //This should be later fetched from database
+  {label: <Avatar src="https://s3-us-west-1.amazonaws.com/example-data.draftbit.com/people_photos/square/model-018.jpg" />, to: '/useraccount'}
 ];
 
 

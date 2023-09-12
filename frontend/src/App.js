@@ -10,6 +10,8 @@ import Navtop from './components/Navbar'
 import Downloadbooks from './pages/Downloadbooks'
 import About from './pages/About'
 import Footer from './components/Footer'
+import AR from './pages/AR'
+import UserAccount from './pages/UserAccount'
 
 function App() {
   const { user } = useAuthContext()
@@ -33,12 +35,13 @@ function App() {
 
             <Route 
               path="/signup" 
-              element={!user ? <Signup /> : <Navigate to="/" />} 
+              element={user ? <Signup /> : <Navigate to="/" />} 
             />
+
 
             <Route
             //changed user to !user since I don't have an account at the moment
-              path="/publish" element={!user ?<Publish/>:<Navigate  to="/Publish.js"/> }>
+              path="/publish" element={user ?<Publish/>:<Navigate  to="/Publish.js"/> }>
             </Route>
 
             <Route
@@ -49,6 +52,15 @@ function App() {
 
             <Route
             path="/about" element={user ?<About/>:<Navigate  to="/About.js"/> }>
+
+            </Route>
+            <Route
+            path="/ar" element={user?<AR/>:<Navigate  to="/AR.js"/> }>
+
+            </Route>
+            
+            <Route
+            path="/useraccount" element={user?<UserAccount/>:<Navigate  to="/UserAccount.js"/> }>
 
             </Route>
            

@@ -6,8 +6,6 @@ const createToken=(_id)=>{
     return jwt.sign({_id},process.env.SECRET,{expiresIn:'3d'})
 }
 
-
-
 //login user
 const loginUser=async(req,res)=>{
     const {email,password}=req.body
@@ -24,13 +22,11 @@ const loginUser=async(req,res)=>{
     
 }
 
-
-
-
 //signup
 const signupUser=async(req,res)=>{
 
     const {email,password}=req.body
+   
 
     try{
         const user=await User.signup(email,password)
