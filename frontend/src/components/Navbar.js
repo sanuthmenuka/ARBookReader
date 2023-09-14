@@ -27,6 +27,7 @@ const navItems = [
   { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
   { label: 'Read', to: '/downloadbooks' }, 
   { label: 'AR', to: '/ar' },
+  {label: 'Pricing', to: '/pricing'},
   {label: 'About', to: '/about'},
   //Get an image of a user from a website just to check the frontend
   //This should be later fetched from database
@@ -88,9 +89,7 @@ const  Navtop=(props) =>{
             <Button component={Link} to="/signup" sx={{ ...linkStyles }}>
               Sign Up
             </Button>
-            <Button component={Link} to="/publish" sx={{ ...linkStyles }}>
-              Publish
-            </Button>
+            
            
         </List>
       )}

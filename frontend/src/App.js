@@ -12,6 +12,9 @@ import About from './pages/About'
 import Footer from './components/Footer'
 import AR from './pages/AR'
 import UserAccount from './pages/UserAccount'
+import BookDetails from './pages/BookDetails'
+import Pricing from './pages/Pricing'
+import Payment from './pages/Payment'
 
 function App() {
   const { user } = useAuthContext()
@@ -60,7 +63,21 @@ function App() {
             </Route>
             
             <Route
+            path="/pricing" element={user?<Pricing/>:<Navigate  to="/Pricing.js"/> }>
+
+            </Route>
+            
+            <Route
             path="/useraccount" element={user?<UserAccount/>:<Navigate  to="/UserAccount.js"/> }>
+
+            </Route>
+
+            <Route
+            path="/bookdetails/:id" element={user?<BookDetails/>:<Navigate  to="/BookDetails.js"/> }>
+
+            </Route>
+            <Route
+            path="/payment/:id" element={user?<Payment/>:<Navigate  to="/Payment.js"/> }>
 
             </Route>
            
