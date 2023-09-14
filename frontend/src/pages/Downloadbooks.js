@@ -1,12 +1,12 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import  Box,{BoxProps} from "@mui/material/Box";
+import  Box from "@mui/material/Box";
 import { Card, Typography, useTheme,InputBase,Button, Grid ,MenuItem,Select,CardMedia,CardContent} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SearchIcon from '@mui/icons-material/Search';
-import { grey, pink, red, yellow } from "@mui/material/colors";
+import {  grey, pink, yellow } from "@mui/material/colors";
 import AppBar from '@mui/material/AppBar';
-
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 const Downloadbooks = () => {
@@ -17,19 +17,39 @@ const Downloadbooks = () => {
   //The function receives the theme and component's properties in an object which is its single argument.
   const OuterContainer = styled(Box)(() => ({
      marginBottom:"150px",
+     
    }));
+   
+   const SerachComponennentWrapper = styled(Box)(()=>({
+    width: '600px',
+     height: '200px',
+     margin: '10px auto',
+     padding: '10px 20px',
+     display: 'flex',
+     flexDirection: 'column',
+     justifyContent: 'space-evenly',
 
+     //backgroundColur:'red',
+  
+  [theme.breakpoints.down('sm')]: {
+    width: '100vw',
+  
+},
+
+}));
   const Search = styled(Box)(() => ({
       display:'flex',
       alignItems:'center',
       ///position: 'relative',
+      width: '600px',
+      height:"60px",
       border: '1px solid #ccc',
       borderRadius: "30px",
       backgroundColor:grey[50],
       //marginRight: theme.spacing(2),
       //marginLeft: 0,
-      width: '100%',
-      height:'60px',
+      //width: '100%',
+      //height:'60px',
       
   }));
 
@@ -54,6 +74,7 @@ const StyledInputBase = styled(InputBase)(() => ({
 
     
     width: '150%',
+    
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -64,23 +85,9 @@ const StyledInputBase = styled(InputBase)(() => ({
     
   },
 }));
-  const SerachComponennentWrapper = styled(Box)(()=>({
-      width: '600px',
-       height: '200px',
-       margin: '10px auto',
-       padding: '10px 20px',
-       display: 'flex',
-       flexDirection: 'column',
-       justifyContent: 'space-evenly',
+ 
 
-       //backgroundColur:'red',
-    
-    [theme.breakpoints.down('sm')]: {
-      width: '100vw',
-    
-  },
-
-  }));
+ 
 
    const AppBarWrapper = styled(Box)(()=>({
        display:"flex",
@@ -145,7 +152,7 @@ const StyledInputBase = styled(InputBase)(() => ({
       //boxShadow: '0 2px 8px rgba(255, 0, 0, 0.6)', 
 
       display:'grid',
-      backgroundColor:grey[100],
+      backgroundColor:grey[200],
       
      
       padding:"20px 20px",
@@ -214,6 +221,7 @@ const StyledInputBase = styled(InputBase)(() => ({
 
     const [books, setBooks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
   
     useEffect(() => {
       fetch('https://example-data.draftbit.com/books?_limit=20')
@@ -233,8 +241,8 @@ const StyledInputBase = styled(InputBase)(() => ({
   
     return (
       <OuterContainer>
-        
-        <SerachComponennentWrapper className="App">
+   
+   <SerachComponennentWrapper className="App">
           <Typography align="center" variant="h4" fontWeight={'bold'} sx={{fontSize:{xs:"1.5rem",md:"2.5rem"}}}>  Search Books</Typography>
           <Search>
           <StyledInputBase
@@ -248,6 +256,7 @@ const StyledInputBase = styled(InputBase)(() => ({
                 
               </Search>
         </SerachComponennentWrapper>
+       
    <AppBarWrapper>
       <AppBarComponent position="static"  >
       
@@ -343,9 +352,13 @@ const StyledInputBase = styled(InputBase)(() => ({
             
             <BooksWrapper>
             {books.map((book) => (
-                <Card onClick={(e)=>{console.log("clicked")}} sx={{ 
+                <Card onClick={()=>{navigate(`/bookdetails/${book.id}`)}}  
+                sx={{ 
                   maxWidth:"100%",
-                  
+                  transition: "transform 0.2s ease",
+                  ":hover": {
+                    transform: "scale(1.07)",
+                  },
 
                 }}
                 >
