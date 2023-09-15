@@ -277,7 +277,7 @@ const Publish = () => {
             fullWidth/>
           </Grid>*/}
 
-<Grid item>
+          <Grid item>
           <InputLabel id="genre">Genre*</InputLabel>
           <Select
             labelId="demo-simple-select-label"

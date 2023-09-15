@@ -25,11 +25,11 @@ const loginUser=async(req,res)=>{
 //signup
 const signupUser=async(req,res)=>{
 
-    const {email,password}=req.body
+    const {firstName,lastName,email, password,confirmPassword}=req.body
    
 
     try{
-        const user=await User.signup(email,password)
+        const user=await User.signup(firstName,lastName,email, password,confirmPassword)
 
         //create token
         const token=createToken(user._id)//user is a document created by mongoose

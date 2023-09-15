@@ -25,7 +25,7 @@ import { Avatar } from '@mui/material';
 const drawerWidth = 240;
 const navItems = [
   { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
-  { label: 'Read', to: '/downloadbooks' }, 
+  { label: 'Search', to: '/downloadbooks' }, 
   { label: 'AR', to: '/ar' },
   {label: 'Pricing', to: '/pricing'},
   {label: 'About', to: '/about'},
@@ -141,9 +141,7 @@ const  Navtop=(props) =>{
             <Button component={Link} to="/signup" sx={{ ...linkStyles }}>
               Sign Up
             </Button>
-            <Button component={Link} to="/publish" sx={{ ...linkStyles }}>
-              Publish
-            </Button>
+            
            
             
           </Box>)}

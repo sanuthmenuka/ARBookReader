@@ -346,7 +346,7 @@ const StyledInputBase = styled(InputBase)(() => ({
     </AppBarWrapper>
        
         {isLoading ? (
-          <p>Loading...</p>
+          <Box marginLeft={"100px"}>Loading...</Box>
         ) : (
           <div>
             

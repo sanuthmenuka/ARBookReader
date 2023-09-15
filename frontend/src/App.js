@@ -38,12 +38,12 @@ function App() {
 
             <Route 
               path="/signup" 
-              element={user ? <Signup /> : <Navigate to="/" />} 
+              element={!user ? <Signup /> : <Navigate to="/" />} 
             />
 
 
             <Route
-            //changed user to !user since I don't have an account at the moment
+            
               path="/publish" element={user ?<Publish/>:<Navigate  to="/Publish.js"/> }>
             </Route>
 
