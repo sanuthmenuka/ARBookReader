@@ -73,8 +73,11 @@ function App() {
 
             <Route
             path="/bookdetails/:id" element={user?<BookDetails/>:<Navigate  to="/"/> }>
-            </Route>
 
+            </Route>
+            <Route
+            path="/payment/:id" element={user?<Payment/>:<Navigate  to="/"/> }>
+            </Route>
             <Route
             path="/payment/:id" element={user?<Payment/>:<Navigate  to="/"/> }>
             </Route>
