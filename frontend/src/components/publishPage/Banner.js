@@ -73,9 +73,7 @@ const Banner = () => {
          height: '50vh',
         
        }
-      
-       
-       
+     
      }));
     return ( 
         <BannerContainer>

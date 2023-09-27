@@ -149,11 +149,12 @@ const Publish = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData();
+    console.log("hereee");
 
     formData.append("title", event.target.title.value);
     formData.append("author", event.target.author.value);
     formData.append("language", event.target.language.value);
-    formData.append("ageCatogory", event.target.ageCatogory.value);
+    formData.append("ageCategory", event.target.ageCatogory.value);
     formData.append("genre", event.target.genre.value);
     formData.append("ARcontent", event.target.ARcontent.value);
     formData.append("description", event.target.description.value);
@@ -162,7 +163,7 @@ const Publish = () => {
     formData.append("coverImage", event.target.coverImage.files[0]);
     formData.append("uploadedBook", event.target.uploadedBook.files[0]);
 
-    console.log(langRef.current);
+    
 
     publish(formData);
   };
@@ -261,15 +262,7 @@ const Publish = () => {
                   </RadioGroup>
                 </Grid>
 
-                {/* <Grid item >
-          <InputLabel  >Price (Rs.)</InputLabel>
-            <TextField
-            label=""
-            name="price"
-            variant="outlined"
-            type='number'
-            fullWidth/>
-          </Grid>*/}
+             
 
           <Grid item>
           <InputLabel id="genre">Genre*</InputLabel>
@@ -279,6 +272,7 @@ const Publish = () => {
             label="Genre"
             fullWidth
             name='genre'
+            value={'select genre'}
             //required
             
            

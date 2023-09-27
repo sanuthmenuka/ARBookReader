@@ -15,6 +15,7 @@ import UserAccount from './pages/UserAccount'
 import BookDetails from './pages/BookDetails'
 import Pricing from './pages/Pricing'
 import Payment from './pages/Payment'
+import EditProfile from './pages/Editprofile'
 
 function App() {
   const { user } = useAuthContext()
@@ -44,41 +45,42 @@ function App() {
 
             <Route
             
-              path="/publish" element={user ?<Publish/>:<Navigate  to="/Publish.js"/> }>
+              path="/publish" element={user ?<Publish/>:<Navigate  to="/"/> }>
             </Route>
 
             <Route
-            path="/downloadbooks" element={user ?<Downloadbooks/>:<Navigate  to="/Downloadbooks.js"/> }>
+            path="/downloadbooks" element={user ?<Downloadbooks/>:<Navigate  to="/"/> }>
 
             </Route>
 
 
             <Route
-            path="/about" element={user ?<About/>:<Navigate  to="/About.js"/> }>
+            path="/about" element={user ?<About/>:<Navigate  to="/"/> }>
 
             </Route>
             <Route
-            path="/ar" element={user?<AR/>:<Navigate  to="/AR.js"/> }>
-
-            </Route>
-            
-            <Route
-            path="/pricing" element={user?<Pricing/>:<Navigate  to="/Pricing.js"/> }>
+            path="/ar" element={user?<AR/>:<Navigate  to="/"/> }>
 
             </Route>
             
             <Route
-            path="/useraccount" element={user?<UserAccount/>:<Navigate  to="/UserAccount.js"/> }>
-
+            path="/pricing" element={user?<Pricing/>:<Navigate  to="/"/> }>
+            </Route>
+            
+            <Route
+            path="/useraccount" element={user?<UserAccount/>:<Navigate  to="/"/> }>
             </Route>
 
             <Route
-            path="/bookdetails/:id" element={user?<BookDetails/>:<Navigate  to="/BookDetails.js"/> }>
-
+            path="/bookdetails/:id" element={user?<BookDetails/>:<Navigate  to="/"/> }>
             </Route>
-            <Route
-            path="/payment/:id" element={user?<Payment/>:<Navigate  to="/Payment.js"/> }>
 
+            <Route
+            path="/payment/:id" element={user?<Payment/>:<Navigate  to="/"/> }>
+            </Route>
+            
+            <Route
+            path="/editprofile" element={user?<EditProfile/>:<Navigate  to="/"/> }>
             </Route>
            
             

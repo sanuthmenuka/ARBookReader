@@ -13,7 +13,6 @@ export const useLogin = () => {
     console.log("login request made")
     const response = await fetch('/api/user/login', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email, password })
     })
     const json = await response.json()
@@ -23,6 +22,7 @@ export const useLogin = () => {
       setError(json.error)
     }
     if (response.ok) {
+      console.log(response);
       // save the user to local storage
       localStorage.setItem('user', JSON.stringify(json))
 

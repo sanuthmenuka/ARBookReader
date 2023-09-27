@@ -2,6 +2,9 @@ import { Avatar, Box ,Grid,Typography,useTheme,Card,CardContent,CardMedia, Butto
 import { blue, grey } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { useState,useEffect } from "react";
+import UserDetails from "../functions/userDetails";
+import { useNavigate } from "react-router-dom";
+
 
 
 const UserAccount = () => {
@@ -161,25 +164,32 @@ const CardMediaComponent = styled(CardMedia)(()=>({
 
 
   const [users, setUsers] = useState([]);
+  const [isError, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userCategory, setUserCategory] = useState('Publisher');
   const [publisherRights, setPublisherRights] = useState('Active'); //pending,active,suspended
   const [subscription, setSubscription] = useState('Premium');
+  const navigate = useNavigate();
 
   
     useEffect(() => {
-      fetch(' https://example-data.draftbit.com/people/56')
-      .then(respones=>{
-        return respones.json();
-    })
-    .then(data=>{
-        setUsers(data); 
-    })
-    .catch(err=>{
-        console.log('rejected',err)
-    })
-    .finally(()=>setIsLoading(false));
+      setIsLoading(true);
+
+      UserDetails()
+      .then((data) => {
+        console.log("here",data.UserDetails);
+        setError(false);
+        setUsers(data);
+        console.log(users);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(true);
+      })
+      .finally(() => setIsLoading(false));
     }, []);
+
+  
 
     const [books, setBooks] = useState([]);
     const [isBookLoading, setIsBookLoading] = useState(true);
@@ -199,7 +209,12 @@ const CardMediaComponent = styled(CardMedia)(()=>({
     }, []);
   
  
-  
+  const handlEditProfile = () => {
+      //user object is passed as a second argument
+      navigate(`/editprofile`,{ state: {users} })
+    };
+   
+    
 
 
     return ( 
@@ -228,10 +243,15 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                 }}> 
                 <Box justifyContent='center' > 
                 
-                <Box paddingBottom={'30px'}  display="flex" justifyContent='center'>
-                <ProfilePicture src= {users.avatar}/>
+                <Box   display="flex" flexDirection="column" justifyContent='center' gap={"15px"}>
+                < ProfilePicture />
+                <Typography fontSize={"1.5rem"} fontWeight={'bold'} >{users.firstName} {users.lastName}</Typography>
+                <Button variant="outlined" 
+                  onClick={()=> handlEditProfile()}>
+                  Edit profile
+                </Button>
                 </Box>
-                <Typography fontSize={"1.5rem"} fontWeight={'bold'} >{users.first_name} {users.last_name}</Typography>
+                
                 </Box>
                 </Grid>
 
@@ -255,7 +275,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                 <Typography variant="h6">Name </Typography> 
                 </Grid>
                 <Grid item xs={6}>
-                <Typography variant="h6" fontStyle={"italic"} color={grey[800]}>{users.first_name} {users.last_name}</Typography> 
+                <Typography variant="h6" fontStyle={"italic"} color={grey[800]}>{users.firstName} {users.lastName}</Typography> 
                 </Grid>
                 </Grid>
 
@@ -299,7 +319,9 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                
                 </Box>
                 </Grid>
+                
                 </OuterGrid>
+               
           
                  
 

@@ -166,6 +166,8 @@ const Payment = () => {
                         <Typography variant="h6"  color={grey[400]}> {tax}.00</Typography>
                         </Grid>
                     </Grid>
+                    
+                    {/* payment options -- visa,master etc.*/}
                     <Typography variant="h6"  color={grey[300]} padding={"20px 5px"}>We accept</Typography>
                     <Grid container spacing={2}>
                         <Grid item md={3}>

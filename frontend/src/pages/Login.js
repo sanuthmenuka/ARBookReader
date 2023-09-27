@@ -163,13 +163,6 @@ const Login = () => {
         </Box>
        
       </Container>
-          
-            
-
-           
-           
-   
-          
         </Grid>
       </Grid>
     

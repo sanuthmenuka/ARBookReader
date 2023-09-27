@@ -23,7 +23,7 @@ const userSchema=new Schema({
     }
 })
 
-//static signup method
+//signup method
 userSchema.statics.signup=async function(firstName,lastName,email, password,confirmPassword){
     
     //validation
@@ -61,7 +61,7 @@ userSchema.statics.signup=async function(firstName,lastName,email, password,conf
 }
 
 
-//static login method
+//login method
 userSchema.statics.login=async function(email,password){
     if(!email||!password){
         throw Error('All fields must be filled')

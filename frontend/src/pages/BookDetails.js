@@ -9,8 +9,7 @@ import {
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
-import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const BookDetails = () => {
   const location = useLocation();
@@ -165,7 +164,7 @@ const BookDetails = () => {
             <Box margin={"5px 50px"}>
               <Typography color={grey[900]} marginBottom={"20px"}>
                 {" "}
-                {book.genre}
+                {book.genre_list}
               </Typography>
             </Box>
 

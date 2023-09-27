@@ -8,7 +8,7 @@ const usePublish = () => {
     setIsLoading(true);
     setError(null);
 
-    console.log("publish request made");
+    console.log("publish request made",FormData);
     const response = await fetch("/api/book/addBook", {
       method: "POST",
       body: FormData,

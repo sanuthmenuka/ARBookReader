@@ -152,12 +152,7 @@ const AR = () => {
         <StoreIcon src={appleStore}/>
         <StoreIcon src={playStore}/>
        </Stack>
-       
-        
-       
-       
         </TextContainer>
-           
         </ImageContainer>
         
         
