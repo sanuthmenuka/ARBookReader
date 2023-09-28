@@ -7,7 +7,7 @@ const UserDetails = async () => {
         }
         const data = await response.json();
         
-        console.log("Data received:", data.userDetails); 
+        //console.log("Data received:", data.userDetails); 
         return data.userDetails;
       } 
         catch (err) {

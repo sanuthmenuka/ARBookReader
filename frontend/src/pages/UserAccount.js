@@ -171,16 +171,19 @@ const CardMediaComponent = styled(CardMedia)(()=>({
   const [subscription, setSubscription] = useState('Premium');
   const navigate = useNavigate();
 
+  const [books, setBooks] = useState([]);
+  const [isBookLoading, setIsBookLoading] = useState(true);
+
   
     useEffect(() => {
       setIsLoading(true);
 
       UserDetails()
       .then((data) => {
-        console.log("here",data.UserDetails);
         setError(false);
         setUsers(data);
-        console.log(users);
+        setBooks(data.users_books);
+        
       })
       .catch((error) => {
         console.error(error);
@@ -191,10 +194,9 @@ const CardMediaComponent = styled(CardMedia)(()=>({
 
   
 
-    const [books, setBooks] = useState([]);
-    const [isBookLoading, setIsBookLoading] = useState(true);
+    
   
-    useEffect(() => {
+  /*  useEffect(() => {
       fetch('https://example-data.draftbit.com/books?_limit=5')
       .then(respones=>{
         return respones.json();
@@ -206,7 +208,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
         console.log('rejected',err)
     })
     .finally(()=>setIsLoading(false));
-    }, []);
+    }, []);*/
   
  
   const handlEditProfile = () => {
@@ -244,7 +246,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                 <Box justifyContent='center' > 
                 
                 <Box   display="flex" flexDirection="column" justifyContent='center' gap={"15px"}>
-                < ProfilePicture />
+                < ProfilePicture src={users.profilePicture}/>
                 <Typography fontSize={"1.5rem"} fontWeight={'bold'} >{users.firstName} {users.lastName}</Typography>
                 <Button variant="outlined" 
                   onClick={()=> handlEditProfile()}>
@@ -342,7 +344,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
             fontSize: {xs:"2.3rem",md:'2.5rem' },
             fontWeight:"bold",
             color:blue[900]
-            }} >Your Publications</Typography>
+            }} >Your Library</Typography>
            
             <BooksWrapper>
               
@@ -359,10 +361,11 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                    <CardMediaComponent
                     component="img"
                     height="auto"
-                    image={book.image_url}
+                    image={book.image}
                     alt="green iguana" />
                       < CardContentComponent>
                           <Typography fontWeight="bold" marginBottom={"5px"} color={blue[900]}>{book.title}</Typography>
+                          <Typography color={blue[800]} marginBottom={"20px"}  > by {book.author}</Typography>
                           <Box display="flex"
                           flexDirection="row"
                           spacing='2'
@@ -371,9 +374,10 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                           marginBottom={"5px"}>
                             <Typography  >Ratings    : </Typography>
                           
-                          <Typography  >{book.rating} </Typography>
+                          <Typography  >{book.ratings} </Typography>
                           </Box>
-                          <Typography color={grey[600]} marginBottom={"20px"}  > by {book.description}</Typography>
+                          
+                          <Typography color={grey[600]} marginBottom={"20px"}  > {book.description}</Typography>
                          
                           <Box  marginBottom={"20px"}> <Button variant="outlined"> Remove</Button></Box>
                        

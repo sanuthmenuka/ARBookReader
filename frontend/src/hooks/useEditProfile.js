@@ -8,7 +8,7 @@ const useEditProfile = () => {
   const editProfile = async (FormData) => {
     setError(null)
     setIsLoading(true)
-    console.log("sent user details")
+    console.log("sent user details",FormData)
     const response = await fetch('/api/user/editprofile', {
       method: 'POST',
       body: FormData

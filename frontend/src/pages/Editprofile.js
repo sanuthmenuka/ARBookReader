@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState} from "react";
 import useEditProfile from "../hooks/useEditProfile";
 import { ThemeProvider } from "@emotion/react";
-import { Typography,Box, Grid, createTheme, InputLabel} from "@mui/material";
+import { Typography,Box, Grid, createTheme, InputLabel, Avatar} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import editphoto from "../Assets/editphoto.jpg";
 import Button from '@mui/material/Button';
@@ -18,23 +18,20 @@ const EditProfile = () => {
         },
       },
     });
-    const LoginContainer = styled(Box)(() => ({
-      display: "flex",
-      justifyContent: "center",
-      border: '1px solid #ccc',
-      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)', 
-      
-      height: "100%",
-  
+    const ProfilePic= styled(Avatar)(() => ({
     
-      margin:"0px 150px 50px 150px", //top right bottom left
-      //backgroundColor :grey[900],
+      [theme.breakpoints.up('lg')]: {
+        width: "200px", 
+        height: "200px",
+       },
+       [theme.breakpoints.down('lg')]: {
+        
+        width: "150px", 
+        height: "150px",
+       },
+       
+  
       
-      [theme.breakpoints.down("lg")]: {
-        flexDirection: "column",
-        alignItems: "justify",
-        margin:"10px 20px",
-      },
     }));
   
     const SigninImage = styled("img")(({src,theme}) => ({
@@ -83,13 +80,7 @@ const EditProfile = () => {
   
     return (
       <ThemeProvider theme={theme}>
-        {ProfilePicture && (
-        <img
-          src={URL.createObjectURL(ProfilePicture)}
-          alt="Selected Profile Picture"
-          style={{ maxWidth: '100px' }}
-        />
-      )}
+       
        
       <Box
       sx={{
@@ -124,14 +115,29 @@ const EditProfile = () => {
               flexDirection: 'column',
               marginLeft:4,
               marginRight:4,
+             
               
             }}
           >
-            <Typography component="h2" variant="title"  marginBottom={2}   >
+            <Box container  display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"}>
+            <Typography   component="h2" variant="title"  marginBottom={2}   >
               Edit Your Profile
-            </Typography>
-            
+              </Typography>
+            </Box>
+             
+
+            <Box container display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} >
+           
+              {ProfilePicture && (
+            <ProfilePic
+              src={URL.createObjectURL(ProfilePicture)}
+              
+            />
+          
+            )}
+            </Box>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
+              
             
             <Grid >
             

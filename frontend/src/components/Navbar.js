@@ -1,6 +1,6 @@
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
-import { useState } from 'react';
+import {useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AppBar from '@mui/material/AppBar';
@@ -18,21 +18,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Avatar } from '@mui/material';
+import UserDetails from "../functions/userDetails";
 
 
 
-
-const drawerWidth = 240;
-const navItems = [
-  { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
-  { label: 'Search', to: '/downloadbooks' }, 
-  { label: 'AR', to: '/ar' },
-  {label: 'Pricing', to: '/pricing'},
-  {label: 'About', to: '/about'},
-  //Get an image of a user from a website just to check the frontend
-  //This should be later fetched from database
-  {label: <Avatar src="https://s3-us-west-1.amazonaws.com/example-data.draftbit.com/people_photos/square/model-018.jpg" />, to: '/useraccount'}
-];
 
 
 const linkStyles = {
@@ -45,10 +34,42 @@ const linkStyles = {
 
 
 const  Navtop=(props) =>{
+  const [users, setUsers] = useState([]);
+  const drawerWidth = 240;
+  const navItems = [
+  { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
+  { label: 'Search', to: '/downloadbooks' }, 
+  { label: 'AR', to: '/ar' },
+  {label: 'Pricing', to: '/pricing'},
+  {label: 'About', to: '/about'},
+  //Get an image of a user from a website just to check the frontend
+  //This should be later fetched from database
+  {label: <Avatar src={users.profilePicture} />, to: '/useraccount'}
+];
+
   const {user}=useAuthContext();
   const {logout}=useLogout();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  
+  
+
+  
+useEffect(() => {
+  
+  UserDetails()
+  .then((data) => {
+    setUsers(data);
+    console.log(users);
+  })
+  .catch((error) => {
+    console.error(error);
+   
+  })
+  
+},[]);
+
 
   const handleClick=()=>{
     logout()

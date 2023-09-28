@@ -9,13 +9,16 @@ import {
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import  addToLibrary from "../functions/addtoLibrary";
 
 const BookDetails = () => {
   const location = useLocation();
   const theme = useTheme();
   const { book } = location.state;
-  console.log("book info", book);
+  //console.log("book info", book);
+  const navigate = useNavigate();
+  
   const PublicationsBox = styled(Box)(() => ({
     //border: '1px solid #ccc',
     //backgroundColor:grey[600],
@@ -107,6 +110,24 @@ const BookDetails = () => {
     },
   }));
 
+  const handleAddToLibrary = () => {
+   console.log(book._id);
+   console.log("Here")
+
+   addToLibrary(book._id)
+    .then((res) => {
+      console.log("Added book to your library",res) 
+    })
+    .catch((error) => {
+      console.error(error);
+      
+    })
+    .finally(() => 
+      console.log()
+    )
+  };
+  
+
   return (
     <PublicationsBox>
       <BooksWrapper>
@@ -168,7 +189,9 @@ const BookDetails = () => {
               </Typography>
             </Box>
 
-            <AddtoLibraryBtn> Add to my Library</AddtoLibraryBtn>
+            <AddtoLibraryBtn 
+            onClick={handleAddToLibrary}
+            > Add to my Library</AddtoLibraryBtn>
           </CardContentComponent>
         </Card>
       </BooksWrapper>

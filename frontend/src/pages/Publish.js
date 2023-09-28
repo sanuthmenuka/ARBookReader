@@ -147,7 +147,7 @@ const Publish = () => {
   const langRef = useRef(null);
 
   const handleFormSubmit = (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     const formData = new FormData();
     console.log("hereee");
 
@@ -164,7 +164,8 @@ const Publish = () => {
     formData.append("uploadedBook", event.target.uploadedBook.files[0]);
 
     
-
+    console.log( event.target.title.value);
+    console.log(formData.get("author"));
     publish(formData);
   };
 
@@ -190,7 +191,7 @@ const Publish = () => {
                   <InputLabel>Book Title* </InputLabel>
                   <TextField
                     label=""
-                    id="booktitle"
+                    id="title"
                     name="title"
                     //ref={langRef}
                     onChange={(e) => {
