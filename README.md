@@ -1,4 +1,4 @@
-# ARBookReader
+# Book Marketplace
 ## Directions
 - go to /frontend run "npm install"
 - go to /server run "npm install"
