@@ -12,6 +12,12 @@ import About from "./pages/About";
 import Footer from "./components/Footer";
 import { Box, Container } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
+import AR from "./pages/AR";
+import UserAccount from "./pages/UserAccount";
+import BookDetails from "./pages/BookDetails";
+import Pricing from "./pages/Pricing";
+import Payment from "./pages/Payment";
+import EditProfile from "./pages/Editprofile";
 
 function App() {
   const { user } = useAuthContext();
@@ -35,31 +41,50 @@ function App() {
             />
 
             <Route
-              path="/login"
-              element={!user ? <Login /> : <Navigate to="/" />}
-            />
-
-            <Route
-              path="/signup"
-              element={!user ? <Signup /> : <Navigate to="/" />}
-            />
-
-            <Route
-              //changed user to !user since I don't have an account at the moment
               path="/publish"
-              element={!user ? <Publish /> : <Navigate to="/Publish.js" />}
+              element={user ? <Publish /> : <Navigate to="/" />}
             ></Route>
 
             <Route
               path="/downloadbooks"
-              element={
-                user ? <Downloadbooks /> : <Navigate to="/Downloadbooks.js" />
-              }
+              element={user ? <Downloadbooks /> : <Navigate to="/" />}
             ></Route>
 
             <Route
               path="/about"
-              element={user ? <About /> : <Navigate to="/About.js" />}
+              element={user ? <About /> : <Navigate to="/" />}
+            ></Route>
+            <Route
+              path="/ar"
+              element={user ? <AR /> : <Navigate to="/" />}
+            ></Route>
+
+            <Route
+              path="/pricing"
+              element={user ? <Pricing /> : <Navigate to="/" />}
+            ></Route>
+
+            <Route
+              path="/useraccount"
+              element={user ? <UserAccount /> : <Navigate to="/" />}
+            ></Route>
+
+            <Route
+              path="/bookdetails/:id"
+              element={user ? <BookDetails /> : <Navigate to="/" />}
+            ></Route>
+            <Route
+              path="/payment/:id"
+              element={user ? <Payment /> : <Navigate to="/" />}
+            ></Route>
+            <Route
+              path="/payment/:id"
+              element={user ? <Payment /> : <Navigate to="/" />}
+            ></Route>
+
+            <Route
+              path="/editprofile"
+              element={user ? <EditProfile /> : <Navigate to="/" />}
             ></Route>
           </Routes>
         </Box>

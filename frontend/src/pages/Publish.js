@@ -1,434 +1,406 @@
-import { Container, FormControl, Typography,useTheme,FormLabel,FormControlLabel,RadioGroup, Button, ButtonGroup } from "@mui/material";
-import Box from '@mui/material/Box';
-import { red } from "@mui/material/colors";
+import * as React from "react";
+
+import {
+  Typography,
+  useTheme,
+  FormControlLabel,
+  RadioGroup,
+  Button,
+  Box,
+  Grid,
+  TextField,
+  InputLabel,
+  MenuItem,
+  Select,
+  Radio,
+  Checkbox,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
-import {grey,pink } from '@mui/material/colors';
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Radio from "@mui/material/Radio";
-import Checkbox from "@mui/material/Checkbox";
-
-
+import { grey, pink } from "@mui/material/colors";
+import Banner from "../components/publishPage/Banner";
+import usePublish from "../hooks/usePublish";
+import { useRef } from "react";
 
 const Publish = () => {
   const theme = useTheme();
- // A styles object or a function returning a styles object. 
- //The function receives the theme and component's properties in an object which is its single argument.
- const OuterContainer = styled(Box)(() => ({
-  marginBottom:"150px",
-}));
-  
- const BannerContainer = styled(Box)(() => ({
-    display: "flex",
-    justifyContent: "center",
-    height: "100%",
-
-    padding: "10px 10px",
-    margin:"10px 40px",
-    backgroundColor :grey[200],
-    
-    [theme.breakpoints.down("lg")]: {
-      flexDirection: "column",
-      alignItems: "justify",
-      margin:"10px 10px",
-    },
-  }));
- 
-
-  const BannerTitle = styled(Typography)(() => ({
-    lineHeight: 1.5,
-    fontSize: "32px",
-    marginBottom: "20px",
-    fontWeight: 'bold',
-    textAlign :"center"
-    
+  // A styles object or a function returning a styles object.
+  //The function receives the theme and component's properties in an object which is its single argument.
+  const OuterContainer = styled(Box)(() => ({
+    marginBottom: "150px",
   }));
 
-  
-
- const BannerContent = styled(Box)(() => ({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    
-    padding: "10px",
-    [theme.breakpoints.up("lg")]: {
-       margin:"10px 10px",
-       width:"600px",
-       heigh:"700px",
-       objectFit: 'cover', 
-    },
-    [theme.breakpoints.down("lg")]: {
-      padding:"0px",
-      margin:"10px 15px",
-      
-      
-    }
-  }));
-
-  const BannerImage = styled("img")(({src,theme}) => ({
-    src: `url(${src})`,
-    
-    [theme.breakpoints.up("lg")]: {
-      width: '50vw',
-      height: '550px',
-    objectFit: 'cover', 
-    },
-    [theme.breakpoints.down("lg")]: {
-      
-      height: '100%',
-      objectFit: 'cover', 
-    }
-   
-    
-    
-  }));
-
+  //styling of the publish form
   const FormContainer = styled(Box)(() => ({
     justifyContent: "flex-start",
     height: "100%",
-    border: '1px solid #ccc',
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', 
+    border: "1px solid #ccc",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
 
     padding: "10px 10px",
-    margin:"50px 40px",
-    backgroundColor :grey[50],
-    
-    [theme.breakpoints.down("md")]: {
+    margin: "50px 40px",
+    backgroundColor: grey[50],
+
+    [theme.breakpoints.down("lg")]: {
       alignItems: "justify",
-      margin:"30px 10px", //(top,bottom) (left,right)
-      
+      margin: "30px 20px", //(top,bottom) (left,right)
     },
   }));
 
   const PublishForm = styled(Box)(() => ({
-    display:"flex",
+    display: "flex",
     justifyContent: "center",
     height: "100%",
 
     padding: "10px 10px ",
-    margin:"20px 10px",
-    backgroundColor :grey[50],
-    
-    [theme.breakpoints.down("md")]: {
-      flexDirection:"column",
+    margin: "20px 10px",
+    backgroundColor: grey[50],
+
+    [theme.breakpoints.down("lg")]: {
+      flexDirection: "column",
       alignItems: "justify",
-      margin:"5px 0px",
+      margin: "5px 0px",
       padding: "10px 0px ",
     },
   }));
 
   const FormTitle = styled(Typography)(() => ({
-    margin:'10px 10px 0px 0px',
-    fontWeight: 'bold',
+    margin: "10px 10px 0px 0px",
+    fontWeight: "bold",
     color: pink[900],
-    fontSize: '2.0rem',
-    '@media (min-width:600px)': {
-      fontSize:'2.5rem',
-      
+    fontSize: "2.0rem",
+    "@media (min-width:600px)": {
+      fontSize: "2.5rem",
     },
-    [theme.breakpoints.up('md')]: {
-      fontSize: '3.0rem',
-      margin:'10px 30px 0px 30px',
-      
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "3.0rem",
+      margin: "10px 30px 0px 30px",
     },
-    [theme.breakpoints.down('md')]: {
-      margin:'10px 15px 0px 5px', //top right bottom left
-      
+    [theme.breakpoints.down("lg")]: {
+      margin: "10px 15px 0px 5px", //top right bottom left
     },
   }));
 
   const FormsubTitle = styled(Typography)(() => ({
-    
-    margin:'0px 10px 0px 0px',
-    
-    fontSize: '1.2rem',
-    
-    [theme.breakpoints.up('md')]: {
-      
-      margin:'0px 30px 0px 30px',
-      
+    margin: "0px 10px 0px 0px",
+
+    fontSize: "1.2rem",
+
+    [theme.breakpoints.up("lg")]: {
+      margin: "0px 30px 0px 30px",
     },
-    [theme.breakpoints.down('md')]: {
-      margin:'0px 15px 0px 5px', //top right bottom left
-      
+    [theme.breakpoints.down("lg")]: {
+      margin: "0px 15px 0px 5px", //top right bottom left
     },
   }));
 
   const TermsConditionsBox = styled(Box)(() => ({
-    
-    margin:'0px 10px 0px 0px',
-       
-    [theme.breakpoints.up('md')]: {
-      
-      margin:'10px 30px 0px 30px',
-      
+    margin: "0px 10px 0px 0px",
+
+    [theme.breakpoints.up("md")]: {
+      margin: "10px 30px 0px 30px",
     },
-    [theme.breakpoints.down('md')]: {
-      margin:'0px 15px 0px 5px', //top right bottom left
-      
+    [theme.breakpoints.down("md")]: {
+      margin: "0px 15px 0px 5px", //top right bottom left
     },
   }));
 
   const PublishBtn = styled(Button)(() => ({
-    
-    width:"400px",
-    height:"100px",
-    
-    backgroundColor:pink[900],
-    
-    fontSize: '1.2rem',
-    '&:hover':{
-      backgroundColor:pink[600],
+    width: "400px",
+    height: "100px",
+
+    backgroundColor: pink[900],
+
+    fontSize: "1.2rem",
+    "&:hover": {
+      backgroundColor: pink[600],
     },
-    
-    [theme.breakpoints.up('md')]: {
-      
-      margin:'10px 30px 0px 30px',
-      
+
+    [theme.breakpoints.up("sm")]: {
+      margin: "10px 30px 0px 30px",
     },
-    [theme.breakpoints.down('md')]: {
-      margin:'0px 15px 0px 5px', //top right bottom left
-      
+    [theme.breakpoints.down("sm")]: {
+      margin: "0px 15px 0px 5px", //top right bottom left
+      width: "300px",
+      height: "60px",
     },
   }));
 
-  
- const FormImage = styled(Box)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "top",
- 
-  margin:"10px 10px 10px 10px",
- 
-  [theme.breakpoints.up("md")]:{
-     
-     width:"50%",
-     heigh:"700px",
-     objectFit: 'cover', 
-  },
-  [theme.breakpoints.down("md")]: {
-    padding:"0px",
-    margin:"10px 5px",
+  const FormImage = styled(Box)(() => ({
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "top",
+
+    margin: "10px 10px 10px 10px",
+
+    [theme.breakpoints.up("lg")]: {
+      width: "50vw",
+      heigh: "700px",
+      objectFit: "cover",
+    },
+    [theme.breakpoints.down("lg")]: {
+      padding: "0px",
+      margin: "10px 5px",
+    },
+  }));
+  const { publish, isLoading, error } = usePublish();
+
+  const langRef = useRef(null);
+
+  const handleFormSubmit = (event) => {
+    //event.preventDefault();
+    const formData = new FormData();
+    console.log("hereee");
+
+    formData.append("title", event.target.title.value);
+    formData.append("author", event.target.author.value);
+    formData.append("language", event.target.language.value);
+    formData.append("ageCategory", event.target.ageCatogory.value);
+    formData.append("genre", event.target.genre.value);
+    formData.append("ARcontent", event.target.ARcontent.value);
+    formData.append("description", event.target.description.value);
+    formData.append("tag1", event.target.tag1.value);
+    formData.append("tag2", event.target.tag2.value);
+    formData.append("coverImage", event.target.coverImage.files[0]);
+    formData.append("uploadedBook", event.target.uploadedBook.files[0]);
+
     
-    
-    
-  }
-}));
-  
+    console.log( event.target.title.value);
+    console.log(formData.get("author"));
+    publish(formData);
+  };
 
+  return (
+    <OuterContainer>
+      <Banner />
 
-  
-
-    return (
-      <OuterContainer>
-
-      
-        <BannerContainer>
-
-      <BannerImage src="https://img.freepik.com/free-vector/online-library-isometric-composition-with-conceptual-images-opened-book-computer-windows-small-people-characters_1284-32385.jpg?w=826&t=st=1692519818~exp=1692520418~hmac=9fca7915d377064dcb75d99118b0ad78e6f4cf5c4f296e693726e618c5780016" />
-      <BannerContent>
-
-      <BannerTitle>
-      Welcome to our publishing page where anyone can easily publish their own book
-      </BannerTitle>
-      <Typography textAlign={"center"} fontStyle={"italic"} >
-      <p>Whether you have a story to tell or want to showcase your
-      artistic skills, our website has got you covered. With our easy-to-use platform, you can easily create and publish your book, making it available to a wide audience.
-      </p>
-      <p>One of our most exciting features is our augmented reality technology that allows you to bring your book to life. With this innovative technology, your readers can immerse themselves in your story as they read.
-      To publish your book, simply fill out a simple form on our website. We will analyze your content and add it to our platform, making it accessible to everyone.
-      </p>
-      <p>Thank you for choosing to collaberate with us and bring your creative vision to life.</p>
-
-      </Typography>
-
-      </BannerContent>
-
-      </BannerContainer>
-       
+      {/*  publish form*/}
+      <form onSubmit={handleFormSubmit}>
         <FormContainer>
-        <FormTitle >
-            Publish Your Book
-          
-        </FormTitle>
-        <FormsubTitle  > Begin your journey as a content creator </FormsubTitle>
-        <PublishForm  >
-        <FormImage>
+          <FormTitle>Publish Your Book</FormTitle>
+          <FormsubTitle> Begin your journey as a content creator </FormsubTitle>
+          <PublishForm>
+            <FormImage>
+              <Grid
+                container
+                spacing={2}
+                display={"flex"}
+                flexDirection={"column"}
+              >
+                {/* Input Field for title of the book*/}
+                <Grid item>
+                  <InputLabel>Book Title* </InputLabel>
+                  <TextField
+                    label=""
+                    id="title"
+                    name="title"
+                    //ref={langRef}
+                    onChange={(e) => {
+                      langRef.current = e.target.value;
+                    }}
+                    //required
+                    variant="outlined"
+                    fullWidth
+                  />
+                </Grid>
 
-        <Grid container spacing={2} display={"flex"} flexDirection={"column"}>
-          <Grid item >
-          <InputLabel >Book Title</InputLabel>
-            <TextField
-            abel=""
-            variant="outlined"
-            fullWidth/>
-            
-            
-          </Grid>
-          
-          <Grid item >
-          <InputLabel >Author</InputLabel>  
-            <TextField
-            label=""
-            variant="outlined"
-            fullWidth/>
-          </Grid>
-          
-          <Grid item >
-          <InputLabel  >Email</InputLabel>
-            <TextField
-            label=""
-            variant="outlined"
-            fullWidth/>
-          </Grid>
+                {/* Input Field for author's name*/}
+                <Grid item>
+                  <InputLabel>Author*</InputLabel>
+                  <TextField
+                    label=""
+                    name="author"
+                    variant="outlined"
+                    //required
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item>
+                  {/* Dropdown menu to select the languge used in the book*/}
+                  <InputLabel id="lang">Language</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="lang"
+                    label="Language"
+                    name="language"
+                    //onChange={()=>{console.log(lang.current.value)}}
+                    fullWidth
+                  >
+                    <MenuItem value="English">English</MenuItem>
+                    <MenuItem value="Sinhala">Sinhala</MenuItem>
+                    <MenuItem value="Tamil">Tamil</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
+                </Grid>
+
+                {/* Radio buttons to select the age category that the book belongs to*/}
+                <Grid item>
+                  <InputLabel id="ageCategory">Age Category</InputLabel>
+                  <RadioGroup
+                    row // radio btns as a row
+                    name="ageCatogory"
+                    defaultValue="PG 5+"
+                  >
+                    <FormControlLabel
+                      value="PG 5+"
+                      control={<Radio />}
+                      label="PG 5+"
+                    />
+                    <FormControlLabel
+                      value="PG 7+"
+                      control={<Radio />}
+                      label="PG 7+"
+                    />
+                    <FormControlLabel
+                      value="PG 10+"
+                      control={<Radio />}
+                      label="PG 10+"
+                    />
+                    <FormControlLabel
+                      value="other"
+                      control={<Radio />}
+                      label="Other"
+                    />
+                  </RadioGroup>
+                </Grid>
+
+             
 
           <Grid item>
-          <InputLabel id="demo-simple-select-label">Language</InputLabel>
+          <InputLabel id="genre">Genre*</InputLabel>
           <Select
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Language"
-            fullWidth
-            
-          >
-            <MenuItem value={10}>English</MenuItem>
-            <MenuItem value={20}>Sinhala</MenuItem>
-            <MenuItem value={30}>Tamil</MenuItem>
-          </Select>
-          </Grid>
-
-          <Grid item>
-          <InputLabel  id="demo-radio-buttons-group-label">Age Category</InputLabel>
-          <RadioGroup   
-            row // radio btns as a row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            defaultValue="PG 5+"
-          
-            
-          >
-            <FormControlLabel value="PG 5+" control={<Radio />} label="PG 5+" />
-            <FormControlLabel value="PG 7+" control={<Radio />} label="PG 7+" />
-            <FormControlLabel value="PG 10+" control={<Radio />} label="PG 10+" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
-            
-          </RadioGroup>
-          </Grid>
-
-          <Grid item >
-          <InputLabel  >Price (Rs.)</InputLabel>
-            <TextField
-            label=""
-            variant="outlined"
-            fullWidth/>
-          </Grid>
-
-          <Grid item >
-          <InputLabel  id="demo-radio-buttons-group-label">Augmented Reality Content</InputLabel>
-          <RadioGroup   
-            row // radio btns as a row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            defaultValue="No"
-          
-            
-          >
-            <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="No" control={<Radio />} label="No" />
-            
-          </RadioGroup>
-          </Grid>
-
-
-          
-          
-           
-        </Grid> 
-
-        </FormImage>
-
-       <FormImage>
-       <Grid container spacing={2} display={"flex"} flexDirection={"column"}>
-          <Grid item >
-            <InputLabel  marginBottom={'10px'}>Cover Image</InputLabel>
-            <TextField
-              label=""
-            type="file"
-            fullWidth
-            />
-          </Grid>
-
-          <Grid item >
-            <InputLabel  marginBottom={'10px'}>Upload your book</InputLabel>
-            <TextField
-              label=""
-            type="file"
-            fullWidth
-            />
-          </Grid>
-          <Grid item>
-          <InputLabel id="demo-simple-select-label">Genre</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            id="genre"
             label="Genre"
             fullWidth
+            name='genre'
+            value={'select genre'}
+            //required
+            
+           
             
           >
-            <MenuItem value={1}>Picture Book</MenuItem>
-            <MenuItem value={2}>Adventure and Fantasy</MenuItem>
-            <MenuItem value={3}>Fairy Tales and Folklore</MenuItem>
-            <MenuItem value={4}>Friendship and Social Themes</MenuItem>
-            <MenuItem value={5}>Poetry and Rhyming Book</MenuItem>
+            <MenuItem value='Adventure and Fantasy'> Adventure and Fantasy</MenuItem>
+            <MenuItem value='Picture Book'> Picture Book</MenuItem>
+            <MenuItem value='Fairy Tales and Folklore'>Fairy Tales and Folklore</MenuItem>
+            <MenuItem value='Friendship and Social Themes'>Friendship and Social Themes</MenuItem>
+            <MenuItem value='Poetry and Rhyming Book'>Poetry and Rhyming Book</MenuItem>
           </Select>
           </Grid>
 
-          <Grid item >
-          <InputLabel >Tags</InputLabel>  
-            
-            <TextField
-            label=""
-            variant="outlined"
-            fullWidth/>
+                <Grid item>
+                  <InputLabel id="ARcontent">
+                    Augmented Reality Content*
+                  </InputLabel>
+                  <RadioGroup
+                    row // radio btns as a row
+                    name="ARcontent"
+                    defaultValue="No"
+                    //required
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
+                  </RadioGroup>
+                </Grid>
+              </Grid>
+            </FormImage>
 
-            
-          </Grid>
-        
+            <FormImage>
+              <Grid
+                container
+                spacing={2}
+                display={"flex"}
+                flexDirection={"column"}
+              >
+                <Grid item>
+                  <InputLabel marginBottom={"10px"}>
+                    Cover Image* {"("}.jpeg .png .jpg{")"}
+                  </InputLabel>
+                  <TextField
+                    label=""
+                    type="file"
+                    inputProps={{ accept: "image/*" }} // this input field only accepts image files
+                    fullWidth
+                    name="coverImage"
+                    //onChange={handleImage}
+                  />
+                </Grid>
 
-          <Grid item>
-            <InputLabel> Description </InputLabel>
-            <TextField
-            label=""
-            variant="outlined"
-            multiline // Enable multi-line mode
-            rows={9} // Number of rows
-            fullWidth
-            
-          />
-          </Grid>    
-        </Grid>
-        </FormImage>
-        
-        </PublishForm>
+                <Grid item>
+                  <InputLabel marginBottom={"10px"}>
+                    Upload your book* {"("}.pdf .epub{")"}{" "}
+                  </InputLabel>
+                  <TextField
+                    label=""
+                    type="file"
+                    inputProps={{ accept: ".epub , .pdf" }} //this input field only accepts .epub and .pdf files
+                    fullWidth
+                    name="uploadedBook"
+                  />
+                </Grid>
 
-        <TermsConditionsBox>
-        <FormControlLabel   required control={<Checkbox />} label="I accept the Terms & Conditions" />
-        </TermsConditionsBox>
-        
-        <Box display={'flex'} justifyContent={"center"} marginBottom={'30px'}>
-        <PublishBtn variant="contained">  Publish</PublishBtn>
-        </Box>
-        
+                <Grid item>
+                  <InputLabel>Tag 1 </InputLabel>
+
+                  <TextField
+                    label=""
+                    name="tag1"
+                    variant="outlined"
+                    fullWidth
+                  />
+                </Grid>
+
+                <Grid item>
+                  <InputLabel>Tag 2 </InputLabel>
+
+                  <TextField
+                    label=""
+                    name="tag2"
+                    variant="outlined"
+                    fullWidth
+                  />
+                </Grid>
+
+                <Grid item>
+                  <InputLabel> Description </InputLabel>
+                  <TextField
+                    label=""
+                    name="description"
+                    variant="outlined"
+                    multiline // Enable multi-line mode
+                    rows={9} // Number of rows
+                    fullWidth
+                  />
+                </Grid>
+              </Grid>
+            </FormImage>
+          </PublishForm>
+
+          <TermsConditionsBox>
+            <FormControlLabel
+              required
+              control={<Checkbox />}
+              label="I accept the Terms & Conditions"
+            />
+          </TermsConditionsBox>
+
+          <Box display={"flex"} justifyContent={"center"} marginBottom={"30px"}>
+            <PublishBtn variant="contained" type="submit">
+              {" "}
+              Publish
+            </PublishBtn>
+          </Box>
         </FormContainer>
-        </OuterContainer>
-               
-      
-     );
-}
- 
-export default Publish;
+      </form>
+    </OuterContainer>
+  );
+};
 
+export default Publish;

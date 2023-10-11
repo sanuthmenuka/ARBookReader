@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import personalizedexperienceforreaders from "../Assets/personalizedexperienceforreaders.jpeg";
 import anyonecanbeanauthor from "../Assets/anyonecanbeanauthor.jpeg";
-import newdimensionoflearning from "../Assets/newdimensionoflearning.jpeg";
+import newdimensionoflearning from "../Assets/newdimensionoflearning.png";
 import parentaldashboard from "../Assets/parentaldashboard.jpeg";
 import { ThemeProvider } from "@mui/material/styles";
 
@@ -40,19 +40,19 @@ const InfoPics = () => {
       classname="infopics"
       display="flex"
       flexDirection="column"
-      sx={{ width: "90%", mt: "10%" }}
+      sx={{ width: "90%", mt: "2%" }}
     >
       <Grid container spacing={1}>
-        <Grid item xs={8}>
+        <Grid item xs={6}>
           <Card sx={{ boxShadow: "none", pointerEvents: "none" }}>
             <CardMedia
               component="img"
               image={personalizedexperienceforreaders}
-              sx={{ background: "white" }}
+              sx={{ background: "white", objectFit: "cover" }}
             />
           </Card>
         </Grid>
-        <Grid container item xs={4} justifyContent="center">
+        <Grid container item xs={6} justifyContent="center">
           <ThemeProvider theme={theme}>
             <Typography
               fontWeight="bold"
@@ -71,8 +71,8 @@ const InfoPics = () => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={1} sx={{ mt: "15%" }}>
-        <Grid container item xs={4} justifyContent="left">
+      <Grid container spacing={1} sx={{ mt: "1%" }}>
+        <Grid container item xs={6} justifyContent="left">
           <ThemeProvider theme={theme}>
             <Typography
               fontWeight="bold"
@@ -92,7 +92,7 @@ const InfoPics = () => {
           </ThemeProvider>
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item xs={6}>
           <Card sx={{ boxShadow: "none", pointerEvents: "none" }}>
             <CardMedia
               component="img"
@@ -103,8 +103,8 @@ const InfoPics = () => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={1} sx={{ mt: "15%" }}>
-        <Grid item xs={8}>
+      <Grid container spacing={1} sx={{ mt: "5%" }}>
+        <Grid item xs={6}>
           <Card sx={{ boxShadow: "none", pointerEvents: "none" }}>
             <CardMedia
               component="img"
@@ -114,7 +114,7 @@ const InfoPics = () => {
           </Card>
         </Grid>
 
-        <Grid container item xs={4} justifyContent="left">
+        <Grid container item xs={6} justifyContent="left">
           <ThemeProvider theme={theme}>
             <Typography
               fontWeight="bold"
@@ -136,8 +136,8 @@ const InfoPics = () => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={1} sx={{ mt: "15%" }}>
-        <Grid container item xs={4} justifyContent="left">
+      <Grid container spacing={1} sx={{ mt: "5%" }}>
+        <Grid container item xs={6} justifyContent="left">
           <ThemeProvider theme={theme}>
             <Typography
               fontWeight="bold"
@@ -145,7 +145,7 @@ const InfoPics = () => {
               justifyContent="flex-start"
               alignItems="end"
               variant="h4"
-              sx={{ mt: "50%" }}
+              sx={{ mt: "55%" }}
             >
               Parent Dashboard
             </Typography>
@@ -156,14 +156,14 @@ const InfoPics = () => {
           </ThemeProvider>
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item xs={6}>
           <Card sx={{ boxShadow: "none", pointerEvents: "none" }}>
             <CardMedia
               component="img"
               image={parentaldashboard}
               sx={{ background: "white" }}
             />
-</Card>
+          </Card>
         </Grid>
       </Grid>
     </Box>

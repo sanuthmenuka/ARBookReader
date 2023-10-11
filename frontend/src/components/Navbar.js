@@ -18,6 +18,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import logoblack from "../Assets/Logo/png/logoblack.png";
+import { Avatar } from "@mui/material";
+import UserDetails from "../functions/userDetails";
 
 const drawerWidth = 240;
 const navItems = [
@@ -36,10 +38,34 @@ const linkStyles = {
 };
 
 const Navtop = (props) => {
+  const [users, setUsers] = useState([]);
+  const drawerWidth = 240;
+  const navItems = [
+    { label: "Publish", to: "/publish" }, // Define paths for your navigation items
+    { label: "Search", to: "/downloadbooks" },
+    { label: "AR", to: "/ar" },
+    { label: "Pricing", to: "/pricing" },
+    { label: "About", to: "/about" },
+    //Get an image of a user from a website just to check the frontend
+    //This should be later fetched from database
+    { label: <Avatar src={users.profilePicture} />, to: "/useraccount" },
+  ];
+
   const { user } = useAuthContext();
   const { logout } = useLogout();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    UserDetails()
+      .then((data) => {
+        setUsers(data);
+        console.log(users);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const handleClick = () => {
     logout();
