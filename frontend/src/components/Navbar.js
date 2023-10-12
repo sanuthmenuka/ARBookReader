@@ -1,6 +1,6 @@
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import AppBar from "@mui/material/AppBar";
