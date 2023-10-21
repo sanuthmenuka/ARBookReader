@@ -1,5 +1,5 @@
 const getPendingPublisherRightRequests = async() => {
-    console.log("Here")
+    
      try {
        const response = await fetch(`/api/publisherright/getpublisherrightsrequest`, {
          method: "GET",

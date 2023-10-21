@@ -1,14 +1,16 @@
-const UserDetails = async () => {
+const markAsReviewed = async (id) => {
     
       try {
-        const response = await fetch(`api/user/getUserDetails`);
+        const response = await fetch(`/api/book/markasreviewed/${id}`, {
+          method: "POST",
+        });
         if (!response.ok) {
           throw new Error(`response was not ok. Status: ${response.status}`);
         }
-        const data = await response.json();
+        const res= await response.json();
         
         
-        return data.userDetails;
+        return res;
       } 
         catch (err) {
          console.error("Error:", err); 
@@ -16,4 +18,4 @@ const UserDetails = async () => {
       }
     };
   
-  export default UserDetails;
+  export default markAsReviewed;

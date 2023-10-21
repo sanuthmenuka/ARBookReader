@@ -26,7 +26,7 @@ function ImageOverlayHome() {
         backgroundRepeat: 'no-repeat'
       }} >
       <Grid className='largegrid' container >
-        <Grid container xs={8}>
+        <Grid container>
           <Grid container item xs={12} display='flex' flexDirection='column' justifyContent='center' alignItems='center'  textAlign='center' >
             <Typography variant='h3' color='white' fontWeight='700' >Thousands of Books!</Typography>
             <Typography variant='h4' color='white' fontWeight='700'>Unlimited Potential.</Typography>

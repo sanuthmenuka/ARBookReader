@@ -367,7 +367,7 @@ const Publish = () => {
                 flexDirection={"column"}
               >
                 <Grid item>
-                  <InputLabel marginBottom={"10px"}>
+                  <InputLabel marginbottom={"10px"}>
                     Cover Image {"("}.jpeg .png .jpg{")"}
                   </InputLabel>
                   <TextField
@@ -382,7 +382,7 @@ const Publish = () => {
                 </Grid>
 
                 <Grid item>
-                  <InputLabel marginBottom={"10px"}>
+                  <InputLabel marginbottom={"10px"}>
                     Upload your book {"("}.pdf .epub{")"}{" "}
                   </InputLabel>
                   <TextField

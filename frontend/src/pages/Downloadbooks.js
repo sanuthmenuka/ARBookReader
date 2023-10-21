@@ -279,7 +279,6 @@ const Downloadbooks = () => {
   return (
     <div>
 
-<h1 className='header'>"hello</h1>
       
       <Box className="App"
           sx={{
@@ -460,7 +459,7 @@ const Downloadbooks = () => {
             
             <BooksWrapper>
             {books.map((book) => (
-              <Card
+              <Card key={book._id}
                 onClick={() => handleBookSelect(book)}
                 sx={{
                   maxWidth: "100%",

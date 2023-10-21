@@ -1,5 +1,5 @@
 const removeFromLibrary = async (id) => {
-    console.log("trying to remove book")
+    
       try {
         const response = await fetch(`/api/user/removeLibraryBook/${id}`, {
           method: "DELETE",

@@ -1,5 +1,5 @@
 const GrantPublisherRights = async (requestId, access) => {
-    console.log(requestId, access)
+    
     try {
       const queryParams = new URLSearchParams();
       queryParams.append('request_id', requestId);

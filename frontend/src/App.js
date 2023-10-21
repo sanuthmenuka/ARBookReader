@@ -14,9 +14,7 @@ import AR from './pages/AR'
 import UserAccount from './pages/UserAccount'
 import BookDetails from './pages/BookDetails'
 import Pricing from './pages/Pricing'
-import Payment from './pages/Payment'
 import EditProfile from './pages/Editprofile'
-import EditPublications from './pages/EditPublication'
 import PublsihRights from './pages/PublishRights'
 import ReviewBooks from './pages/ReviewBooks'
 
@@ -87,17 +85,9 @@ function App() {
             path="/bookdetails/:id" element={user && !admin?<BookDetails/>:<Navigate  to="/"/> }>
 
             </Route>
+                        
             <Route
-            path="/payment/:id" element={user && !admin?<Payment/>:<Navigate  to="/"/> }>
-            </Route>
-           
-            
-            <Route
-            path="/editprofile" element={user && !admin?<EditProfile/>:<Navigate  to="/"/> }>
-            </Route>
-
-            <Route
-            path="/editpublications/:id" element={user && !admin?<EditPublications/>:<Navigate  to="/"/> }>
+            path="/editprofile" element={user ?<EditProfile/>:<Navigate  to="/"/> }>
             </Route>
 
             <Route

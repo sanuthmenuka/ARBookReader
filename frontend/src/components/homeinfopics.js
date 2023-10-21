@@ -39,7 +39,7 @@ theme.typography.body2 = {
 const InfoPics = () => {
   return (
     <Box
-      classname="infopics"
+      className="infopics"
       display="flex"
       flexDirection="column"
       sx={{ width: "90%", mt: "2%" }}

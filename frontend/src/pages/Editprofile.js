@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState} from "react";
+import {  useState} from "react";
 import useEditProfile from "../hooks/useEditProfile";
 import { ThemeProvider } from "@emotion/react";
 import { Typography,Box, Grid, createTheme, InputLabel, Avatar} from "@mui/material";
@@ -116,20 +116,10 @@ const EditProfile = () => {
   
     return (
      <div>
-       <h1 className='header'>Hello</h1>
+       
 
       <ThemeProvider theme={theme}>
-        
-<TextField data-testid="my-text-field"
-                onChange={(e)=>{setFirstName(e.target.value)}}
-                fullWidth
-                id="firstName"
-                label="FirstName"
-                name="firstName"
-                autoComplete="firstName"
-                value={firstName}
-                
-              />
+
        
        
       <Box

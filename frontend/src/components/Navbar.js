@@ -36,7 +36,7 @@ const linkStyles = {
 
 const  Navtop=(props) =>{
   const [users, setUsers] = useState([]);
-  const {editProfile,error,isLoading,isChanged } = useEditProfile();
+  const {isChanged } = useEditProfile();
   const drawerWidth = 240;
   const navItems_public = [
   { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
@@ -80,7 +80,7 @@ const navItems_admin = [
     UserDetails()
     .then((data) => {
       setUsers(data);
-      console.log(users);
+      
     })
     .catch((error) => {
       console.error(error);
@@ -222,29 +222,3 @@ Navtop.propTypes = {
 
 export default Navtop;
 
-
-/*
-<Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="/">Pixie</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-        
-          {user && (
-            <Nav>
-              <Nav.Link href="/publish">Publish</Nav.Link>
-              <Nav.Link href="/downloadbooks">Buy books</Nav.Link>
-              <Button variant='primary' onClick={handleClick}>Log out</Button>
-            </Nav>
-          )}
-          {!user && (
-            <Nav>
-              <Nav.Link href="/login">Login</Nav.Link>
-              <Nav.Link href="/signup">Signup</Nav.Link>
-            </Nav>
-          )}
-  
-        </Navbar.Collapse>
-      </Container>
-    </Navbar> 
-    */

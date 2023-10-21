@@ -1,37 +1,32 @@
 import * as React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import StarIcon from '@mui/icons-material/StarBorder';
 import Typography from '@mui/material/Typography';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import { useTheme } from '@mui/material';
-import { blue, blueGrey, grey} from '@mui/material/colors';
+import {blueGrey, grey} from '@mui/material/colors';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import { useNavigate} from 'react-router-dom';
-import { useEffect,useRef } from 'react';
+import { useEffect,useRef ,useState} from 'react';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import activateSubscription from '../functions/activateSubscription';
 
 const Pricing = () => {
     const theme = useTheme();
-    const navigate = useNavigate();
-
     const paypal = useRef();
-
     const effectRan = useRef(false);
+
 
       useEffect(() => {
         if (!effectRan.current) {
           console.log("effect applied - only on the FIRST mount");
-          window. paypal.Buttons({
+          window.paypal.Buttons({
             style: {
                 shape: 'rect',
                 color: 'gold',
@@ -45,17 +40,23 @@ const Pricing = () => {
               });
             },
             onApprove: function(data, actions) {
-              console.log(data.subscriptionID)
+              activateSubscription(data.subscriptionID)
               Swal.fire({
-                icon: 'success',
-                iconColor: '#716add',
-                color: '#716add',
-                title: 'Subscription Confirmed',
-                showConfirmButton: false,
-                timer: 2000, // Automatically close after 2 seconds
-              });
+                  icon: 'success',
+                  iconColor: '#716add',
+                  color: '#716add',
+                  title: 'Subscription Confirmed',
+                  showConfirmButton: false,
+                  timer: 2000, // Automatically close after 2 seconds
+                }); 
+              
+             
 
+            },
+            onCancel : function(data){
+              console.log("Canceled");
             }
+           
         }).render(paypal.current); // Renders the PayPal button
         }
 
@@ -77,7 +78,7 @@ const Pricing = () => {
         <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6 }}>
           <Typography
             component="h1"
-            variant={{xs:"h4",md:"h2"}}
+            variant="h3"
             align="center"
             color="white"
             fontWeight="bold"
@@ -159,4 +160,3 @@ const Pricing = () => {
 }
  
 export default Pricing;
-

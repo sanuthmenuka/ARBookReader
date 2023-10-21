@@ -1,14 +1,14 @@
 import { Avatar, Box ,Grid,Typography,useTheme,Card,CardContent,CardMedia, Button} from "@mui/material";
-import { blue, grey,pink } from "@mui/material/colors";
+import { blue, grey} from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { useState,useEffect } from "react";
 import UserDetails from "../functions/userDetails";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import  removeFromLibrary from "../functions/removeFromLibrary";
 import removePublication from "../functions/removePublication";
-import AppBar from "@mui/material/AppBar";
+
 
 
 
@@ -168,8 +168,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
   const [isError, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userCategory, setUserCategory] = useState('Reader');
-  const [publisherRights, setPublisherRights] = useState('Active'); //pending,active,suspended
-  const [subscription, setSubscription] = useState('Premium');
+  const [subscription, setSubscription] = useState('Not activated');
   const navigate = useNavigate();
 
   
@@ -180,8 +179,6 @@ const CardMediaComponent = styled(CardMedia)(()=>({
   const [viewButton, setViewButton] = useState("View your library");
   const [title, setTitle] = useState("My Publications");
  
-
-  
     useEffect(() => {
       setIsLoading(true);
 
@@ -190,17 +187,26 @@ const CardMediaComponent = styled(CardMedia)(()=>({
         setError(false);
         setUsers(data);
         
+        if(data.userRole === 'admin'){
+          setUserCategory('Admin');
+          setSubscription('Not applicable')
+        }
         //console.log(data.publisher);
-        if(data.publisher){
+        else{
+          if(data.paid){
+            setSubscription("Activated");
+          }
+
+          if(data.publisher){
           setUserCategory('Publisher');
           setLibraryBooks(data.users_books);
           setPublishedBooks(data.users_published_books)
           
-        }
-        else{
-          setBooks(data.users_books);
-        }
-        
+          }
+          else{
+            setBooks(data.users_books);
+          }
+      }
       })
       .catch((error) => {
         console.error(error);
@@ -248,7 +254,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
       }).then((result) => {
         if (result.isConfirmed) {
           // User confirmed, proceed with the removal
-          console.log("Confirmed: Remove book",id);
+          //console.log("Confirmed: Remove book",id);
           removeFromLibrary(id)
           .then((res)=>{
             if(users.publisher){
@@ -285,7 +291,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
       }).then((result) => {
         if (result.isConfirmed) {
           // User confirmed, proceed with the removal
-          console.log("Confirmed: Remove book",id);
+          //console.log("Confirmed: Remove book",id);
           removePublication(id)
           .then((res)=>{
             if(users.publisher){
@@ -305,11 +311,6 @@ const CardMediaComponent = styled(CardMedia)(()=>({
       });
     };
 
-    const handleEditPublicationbtnClick = (book) => {
-      navigate(`/editpublications/${book._id}`,{ state: {book} })
-      
-
-    }
 
     const handlEditProfile = () => {
       //user object is passed as a second argument
@@ -326,7 +327,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
          {isLoading ? (
             <p></p>
           ) : (
-            <OuterBox>
+            <OuterBox >
                 <OuterGrid >
                 {/* Profile picture(avatar) and username*/}
                 <Grid item xs={12} md={4} 
@@ -335,7 +336,8 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                   borderRight:{md:'5px solid black'} ,
                   borderBottom:{xs:'5px solid black',md:"none"} ,
                   padding :{xs:"10px 10px", md:"10px 20px",lg:"10px 50px"},
-                  justifyContent:"center"
+                  justifyContent:"center",
+                  
                   
                 }}> 
                 <Box justifyContent='center' > 
@@ -431,7 +433,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
           <p>Loading</p>
         ) : (
           /* this component is only for readers */
-          !users.publisher && (
+          !users.publisher && (users.userRole !== "admin") &&(
           <div>
             
            <PublicationsBox>
@@ -497,8 +499,9 @@ const CardMediaComponent = styled(CardMedia)(()=>({
 {isLoading  ? (
           <p></p>
         ) : (
+          
           /* this component is only for publishers */
-          users.publisher && (
+          users.publisher && (users.userRole !== "admin") && (
           <div>
             
            <PublicationsBox>
@@ -582,16 +585,7 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                           </Button>
                           }
                           
-                          {title==="My Publications" && 
-                          
-                          <Button 
-                          variant="outlined"
-                          onClick={() => handleEditPublicationbtnClick(book)}
-                          > 
-                          Edit Publication Details
-                          </Button>
-                          
-                          }
+                         
                           </Box>
                        
                       </ CardContentComponent>
@@ -603,8 +597,13 @@ const CardMediaComponent = styled(CardMedia)(()=>({
             </PublicationsBox>
           </div>
           )
+          
         )}
-    
+    {(users.userRole === "admin") && (
+      <Box marginBottom={"200px"}>
+
+      </Box>
+    )}
     </div>
                 
                 

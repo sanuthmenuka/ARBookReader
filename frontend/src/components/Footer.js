@@ -27,13 +27,16 @@ export default function Footer() {
     <ThemeProvider theme={defaultTheme}>
       
         <Box
+
           component="footer"
           sx={{
+           
             py: 3,
             px: 2,
             mt: 'auto',
             
-            bottom:0,
+            bottom: 0,
+            
             width:'100%',
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'

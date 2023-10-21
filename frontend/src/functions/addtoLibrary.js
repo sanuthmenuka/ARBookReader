@@ -1,5 +1,5 @@
 const AddtoLibrary = async (id) => {
-      console.log("Here")
+     
       try {
         const queryParams = new URLSearchParams();
         queryParams.append('book_id', id);
