@@ -8,6 +8,10 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useLocation } from "react-router-dom";
 import { purple } from "@mui/material/colors";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import { useNavigate } from "react-router-dom";
+
 
 
 const EditProfile = () => {   
@@ -55,18 +59,19 @@ const EditProfile = () => {
 
     const location = useLocation();
     const { users} = location.state;
-    console.log("user details", users.firstName);
+    //console.log("user details", users.firstName);
    
-    const {editProfile,error,isLoading } = useEditProfile();
+    const {editProfile,error,isLoading,isChanged } = useEditProfile();
     const [firstName,setFirstName] = useState(users.firstName);;
     const [lastName,setLastName] = useState(users.lastName);
     const [ProfilePicture,setProfilePicture] = useState(null);
+    const navigate = useNavigate();
     
     
     //Handle submission of the lsign up form 
     const handleSubmit = async (event) => { 
     //setProfilePicture(e.target.profilePicture.files[0])
-      console.log(firstName,lastName,ProfilePicture);
+      //console.log(firstName,lastName,ProfilePicture);
       event.preventDefault();
       
       const formData = new FormData();
@@ -75,11 +80,56 @@ const EditProfile = () => {
       formData.append("lastName",event.target.lastName.value);
       formData.append("ProfilePicture", event.target.profilePicture.files[0]);
       
-      editProfile(formData);
+      editProfile(formData)
+      .then((res) => {
+        //pop up msg to indicate user profile details changed successful 
+        Swal.fire({
+          icon: 'success',
+          iconColor: '#716add',
+          color: '#716add',
+          title: 'Changed your account details',
+          showConfirmButton: false,
+          timer: 2000, // Automatically close after 2 seconds
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        //pop up msg to indicate that an error occured 
+        Swal.fire({
+          icon: 'error',
+          title: 'An error occurred',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+
+        
+      })
+      .finally(()=>{
+        setTimeout(() => {
+          navigate(`/useraccount`);
+        }, 2250); // Adjust the timeout duration as needed    
+      
+      })
+     
+      
     }
   
     return (
+     <div>
+       <h1 className='header'>Hello</h1>
+
       <ThemeProvider theme={theme}>
+        
+<TextField data-testid="my-text-field"
+                onChange={(e)=>{setFirstName(e.target.value)}}
+                fullWidth
+                id="firstName"
+                label="FirstName"
+                name="firstName"
+                autoComplete="firstName"
+                value={firstName}
+                
+              />
        
        
       <Box
@@ -150,11 +200,11 @@ const EditProfile = () => {
                First Name
             </InputLabel>
 
-            <TextField 
+            <TextField data-testid="my-name-field"
                 onChange={(e)=>{setFirstName(e.target.value)}}
                 fullWidth
                 id="firstName"
-                label=""
+                label="FirstName"
                 name="firstName"
                 autoComplete="firstName"
                 value={firstName}
@@ -230,6 +280,7 @@ const EditProfile = () => {
      
       </Box>
       </ThemeProvider>
+      </div>
     )
   }
   

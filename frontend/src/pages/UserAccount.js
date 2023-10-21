@@ -1,9 +1,14 @@
 import { Avatar, Box ,Grid,Typography,useTheme,Card,CardContent,CardMedia, Button} from "@mui/material";
-import { blue, grey } from "@mui/material/colors";
+import { blue, grey,pink } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { useState,useEffect } from "react";
 import UserDetails from "../functions/userDetails";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import  removeFromLibrary from "../functions/removeFromLibrary";
+import removePublication from "../functions/removePublication";
+import AppBar from "@mui/material/AppBar";
 
 
 
@@ -82,8 +87,8 @@ const UserAccount = () => {
    
     [theme.breakpoints.up('lg')]: {
       
-      margin:"10px 120px 100px 120px", //top,right,bottom , left
-      padding:"50px 10px",
+      margin:"0px 120px 100px 120px", //top,right,bottom , left
+      padding:"30px 0px",
      },
      [theme.breakpoints.down('lg')]: {
       
@@ -159,20 +164,22 @@ const CardMediaComponent = styled(CardMedia)(()=>({
  
 }));
 
-
-
-
-
   const [users, setUsers] = useState([]);
   const [isError, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [userCategory, setUserCategory] = useState('Publisher');
+  const [userCategory, setUserCategory] = useState('Reader');
   const [publisherRights, setPublisherRights] = useState('Active'); //pending,active,suspended
   const [subscription, setSubscription] = useState('Premium');
   const navigate = useNavigate();
 
+  
   const [books, setBooks] = useState([]);
-  const [isBookLoading, setIsBookLoading] = useState(true);
+
+  const [libraryBooks, setLibraryBooks] = useState([]);
+  const [publishedBooks, setPublishedBooks] = useState([]);
+  const [viewButton, setViewButton] = useState("View your library");
+  const [title, setTitle] = useState("My Publications");
+ 
 
   
     useEffect(() => {
@@ -182,7 +189,17 @@ const CardMediaComponent = styled(CardMedia)(()=>({
       .then((data) => {
         setError(false);
         setUsers(data);
-        setBooks(data.users_books);
+        
+        //console.log(data.publisher);
+        if(data.publisher){
+          setUserCategory('Publisher');
+          setLibraryBooks(data.users_books);
+          setPublishedBooks(data.users_published_books)
+          
+        }
+        else{
+          setBooks(data.users_books);
+        }
         
       })
       .catch((error) => {
@@ -191,47 +208,125 @@ const CardMediaComponent = styled(CardMedia)(()=>({
       })
       .finally(() => setIsLoading(false));
     }, []);
-
   
-
+    //This gets run during the firt render if the user is a publisher
+  useEffect(() => {
+      setBooks(publishedBooks);
+    }, [publishedBooks]);
     
-  
-  /*  useEffect(() => {
-      fetch('https://example-data.draftbit.com/books?_limit=5')
-      .then(respones=>{
-        return respones.json();
-    })
-    .then(data=>{
-        setBooks(data); 
-    })
-    .catch(err=>{
-        console.log('rejected',err)
-    })
-    .finally(()=>setIsLoading(false));
-    }, []);*/
-  
  
-  const handlEditProfile = () => {
+  
+  //Change user's view from publications to personal library and viceversa
+  const handlechangeViewBtnClick = () => {
+    if(title === "My Publications"){
+        setTitle("My Library");
+        setBooks(libraryBooks);
+        setViewButton("View your publications")
+    }
+    else{
+      setTitle("My Publications");
+      setBooks(publishedBooks);
+      setViewButton("View your library")
+
+    }
+
+  }
+  //This is used to remove a book from user's personal library
+  const handleRemovebtnClick = (id) => {
       //user object is passed as a second argument
-      navigate(`/editprofile`,{ state: {users} })
+      
+      // Display a confirmation pop-up using SweetAlert
+      Swal.fire({
+        title: 'Remove Book',
+        text: 'Are you sure you want to remove this book from your library?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // User confirmed, proceed with the removal
+          console.log("Confirmed: Remove book",id);
+          removeFromLibrary(id)
+          .then((res)=>{
+            if(users.publisher){
+              setLibraryBooks((books) => books.filter((book) => book._id !== id));
+              
+            }
+            //change the local books data so that it does not contain the removed book
+            //this method reduce the no of backend calls
+            setBooks((books) => books.filter((book) => book._id !== id));
+          })
+         
+          
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // User clicked the cancel button
+          console.log("Canceled: Remove book");
+        }
+      });
     };
    
-    
+    //This is used to remove a book from the book catalog so that it will not be available for readers to read
+    const handleRemovePublicationbtnClick = (id) => {
+      //user object is passed as a second argument
+      
+      // Display a confirmation pop-up using SweetAlert
+      Swal.fire({
+        title: 'Remove Publication',
+        text: 'Are you sure you want to remove this publication?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // User confirmed, proceed with the removal
+          console.log("Confirmed: Remove book",id);
+          removePublication(id)
+          .then((res)=>{
+            if(users.publisher){
+              setPublishedBooks((books) => books.filter((book) => book._id !== id));
+              
+            }
+            //change the local books data so that it does not contain the removed book
+            //this method reduce the no of backend calls
+            setBooks((books) => books.filter((book) => book._id !== id));
+          })
+         
+          
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // User clicked the cancel button
+          console.log("Canceled: Remove book");
+        }
+      });
+    };
 
+    const handleEditPublicationbtnClick = (book) => {
+      navigate(`/editpublications/${book._id}`,{ state: {book} })
+      
 
+    }
+
+    const handlEditProfile = () => {
+      //user object is passed as a second argument
+      navigate(`/editprofile`,{ state: {users} })
+      
+    };
+  
+   
     return ( 
         <div>
-         
+        
          
                 
          {isLoading ? (
             <p></p>
           ) : (
             <OuterBox>
-
-            
-
-           
                 <OuterGrid >
                 {/* Profile picture(avatar) and username*/}
                 <Grid item xs={12} md={4} 
@@ -272,12 +367,12 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                 }}
                 >
 
-                <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} padding={{xs:"10px 10px",md:"10px 50px"}} maxWidth={"100%"}>
+                <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} padding={{xs:"10px 10px",md:"10px 50px"}} >
                 <Grid item xs={6}>
                 <Typography variant="h6">Name </Typography> 
                 </Grid>
                 <Grid item xs={6}>
-                <Typography variant="h6" fontStyle={"italic"} color={grey[800]}>{users.firstName} {users.lastName}</Typography> 
+                <Typography variant="h6" fontStyle={"italic"} color={grey[800]}>{users.firstName} {users.lastName} </Typography> 
                 </Grid>
                 </Grid>
 
@@ -300,18 +395,18 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                 </Grid>
               </Grid>
 
-               <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} padding={{xs:"10px 10px",md:"10px 50px"}}>
+           {/*   <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} padding={{xs:"10px 10px",md:"10px 50px"}}>
                 <Grid item xs={6}>
                 <Typography variant="h6"> Status of Publisher Rights </Typography> 
                 </Grid>
                 <Grid item xs={6}>
                 <Typography variant="h6" fontStyle={"italic"} color={grey[800]}>{publisherRights}</Typography> 
                 </Grid>
-              </Grid>
+              </Grid> */}
 
               <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} padding={{xs:"10px 10px",md:"10px 50px"}}>
                 <Grid item xs={6}>
-                <Typography variant="h6"> Subscription  </Typography> 
+                <Typography variant="h6"> Subscription</Typography> 
                 </Grid>
                 <Grid item xs={6}>
                 <Typography variant="h6" fontStyle={"italic"} color={grey[800]}>{subscription}</Typography> 
@@ -332,9 +427,11 @@ const CardMediaComponent = styled(CardMedia)(()=>({
 
     )}
 
-{isLoading ? (
-          <p></p>
+{isLoading  ? (
+          <p>Loading</p>
         ) : (
+          /* this component is only for readers */
+          !users.publisher && (
           <div>
             
            <PublicationsBox>
@@ -344,13 +441,13 @@ const CardMediaComponent = styled(CardMedia)(()=>({
             fontSize: {xs:"2.3rem",md:'2.5rem' },
             fontWeight:"bold",
             color:blue[900]
-            }} >Your Library</Typography>
+            }} >My Library</Typography>
            
             <BooksWrapper>
               
             
             {books.map((book) => (
-                <Card onClick={(e)=>{console.log("clicked")}} sx={{ 
+                <Card sx={{ 
                   
                   display:"flex",
                   flexDirection:"row"
@@ -379,7 +476,13 @@ const CardMediaComponent = styled(CardMedia)(()=>({
                           
                           <Typography color={grey[600]} marginBottom={"20px"}  > {book.description}</Typography>
                          
-                          <Box  marginBottom={"20px"}> <Button variant="outlined"> Remove</Button></Box>
+                          <Box  marginBottom={"20px"}> 
+                          <Button 
+                          variant="outlined"
+                          onClick={() => handleRemovebtnClick(book._id)}> 
+                          Remove
+                          </Button>
+                          </Box>
                        
                       </ CardContentComponent>
                  
@@ -389,8 +492,119 @@ const CardMediaComponent = styled(CardMedia)(()=>({
             </ BooksWrapper>
             </PublicationsBox>
           </div>
+          )
         )}
+{isLoading  ? (
+          <p></p>
+        ) : (
+          /* this component is only for publishers */
+          users.publisher && (
+          <div>
+            
+           <PublicationsBox>
 
+           <Grid container>
+              <Grid item  xs={9} >
+              
+              <Typography sx ={{
+                 paddingLeft:"40px" ,
+                  paddingBottom:"10px" ,
+                fontSize: {xs:"2.5rem",md:'2.8rem' },
+                fontWeight:"bold",
+                color:blue[900]
+                }} >
+               {title}</Typography>
+             
+              </Grid>
+              <Grid item xs={3}>
+                <Box margin="10px 0px 0px 0px">
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={handlechangeViewBtnClick}
+                  >{viewButton}</Button>
+                </Box>
+             
+              </Grid>
+              </Grid>
+            
+           <BooksWrapper>
+              
+            
+            {books.map((book) => (
+                <Card sx={{ 
+                  
+                  display:"flex",
+                  flexDirection:"row"
+                  
+
+                }}
+                >
+                   <CardMediaComponent
+                    component="img"
+                    height="auto"
+                    image={book.image}
+                    alt="green iguana" />
+                      < CardContentComponent>
+                          <Typography fontWeight="bold" marginBottom={"5px"} color={blue[900]}>{book.title}</Typography>
+                          <Typography color={blue[800]} marginBottom={"20px"}  > by {book.author}</Typography>
+                          <Box display="flex"
+                          flexDirection="row"
+                          spacing='2'
+                          color={blue[800]}
+                          gap='2px'
+                          marginBottom={"5px"}>
+                            <Typography  >Ratings    : </Typography>
+                          
+                          <Typography  >{book.ratings} </Typography>
+                          </Box>
+                          
+                          <Typography color={grey[600]} marginBottom={"20px"}  > {book.description}</Typography>
+                         
+                          <Box  marginBottom={"20px"}> 
+
+                          {title==="My Library" && 
+                          <Button 
+                          variant="outlined"
+                          style={{ marginRight: "10px" }}
+                          onClick={() => handleRemovebtnClick(book._id)}> 
+                          Remove
+                          </Button>
+                          }
+                          
+                          {title==="My Publications" && 
+                          <Button 
+                          variant="outlined"
+                          style={{ marginRight: "10px" }}
+                          onClick={() => handleRemovePublicationbtnClick(book._id)}
+                         > 
+                          Remove Publication
+                          </Button>
+                          }
+                          
+                          {title==="My Publications" && 
+                          
+                          <Button 
+                          variant="outlined"
+                          onClick={() => handleEditPublicationbtnClick(book)}
+                          > 
+                          Edit Publication Details
+                          </Button>
+                          
+                          }
+                          </Box>
+                       
+                      </ CardContentComponent>
+                 
+                </Card>
+              
+            ))}
+            </ BooksWrapper>
+            </PublicationsBox>
+          </div>
+          )
+        )}
+    
     </div>
                 
                 

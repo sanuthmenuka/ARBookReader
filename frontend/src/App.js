@@ -16,9 +16,21 @@ import BookDetails from './pages/BookDetails'
 import Pricing from './pages/Pricing'
 import Payment from './pages/Payment'
 import EditProfile from './pages/Editprofile'
+import EditPublications from './pages/EditPublication'
+import PublsihRights from './pages/PublishRights'
+import ReviewBooks from './pages/ReviewBooks'
 
 function App() {
   const { user } = useAuthContext()
+  let admin = false
+  if(user){
+    if(user.role === 'admin'){
+      admin = true
+    }
+  }
+  
+
+
   
 
   return (
@@ -45,26 +57,26 @@ function App() {
 
             <Route
             
-              path="/publish" element={user ?<Publish/>:<Navigate  to="/"/> }>
+              path="/publish" element={user  ?<Publish/>:<Navigate  to="/"/> }>
             </Route>
 
             <Route
-            path="/downloadbooks" element={user ?<Downloadbooks/>:<Navigate  to="/"/> }>
+            path="/downloadbooks" element={user && !admin ?<Downloadbooks/>:<Navigate  to="/"/> }>
 
             </Route>
 
 
             <Route
-            path="/about" element={user ?<About/>:<Navigate  to="/"/> }>
+            path="/about" element={user && !admin ?<About/>:<Navigate  to="/"/> }>
 
             </Route>
             <Route
-            path="/ar" element={user?<AR/>:<Navigate  to="/"/> }>
+            path="/ar" element={user && !admin?<AR/>:<Navigate  to="/"/> }>
 
             </Route>
             
             <Route
-            path="/pricing" element={user?<Pricing/>:<Navigate  to="/"/> }>
+            path="/pricing" element={user && !admin?<Pricing/>:<Navigate  to="/"/> }>
             </Route>
             
             <Route
@@ -72,18 +84,28 @@ function App() {
             </Route>
 
             <Route
-            path="/bookdetails/:id" element={user?<BookDetails/>:<Navigate  to="/"/> }>
+            path="/bookdetails/:id" element={user && !admin?<BookDetails/>:<Navigate  to="/"/> }>
 
             </Route>
             <Route
-            path="/payment/:id" element={user?<Payment/>:<Navigate  to="/"/> }>
+            path="/payment/:id" element={user && !admin?<Payment/>:<Navigate  to="/"/> }>
             </Route>
-            <Route
-            path="/payment/:id" element={user?<Payment/>:<Navigate  to="/"/> }>
-            </Route>
+           
             
             <Route
-            path="/editprofile" element={user?<EditProfile/>:<Navigate  to="/"/> }>
+            path="/editprofile" element={user && !admin?<EditProfile/>:<Navigate  to="/"/> }>
+            </Route>
+
+            <Route
+            path="/editpublications/:id" element={user && !admin?<EditPublications/>:<Navigate  to="/"/> }>
+            </Route>
+
+            <Route
+            path="/publsihrights" element={user && admin?<PublsihRights/>:<Navigate  to="/"/> }>
+            </Route>
+
+            <Route
+            path="/reviewbooks" element={user && admin?<ReviewBooks />:<Navigate  to="/"/> }>
             </Route>
            
             

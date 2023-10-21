@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import filterBooks from "../functions/filterbooks";
 
+
 import Box from "@mui/material/Box";
 import {
   Card,
@@ -151,6 +152,7 @@ const Downloadbooks = () => {
   const CardMediaComponent = styled(CardMedia)(() => ({
     maxWidth: "100%",
     padding: "16px 16px 0px 16px",
+    height:"30vh",
 
     [theme.breakpoints.down("md")]: {
       padding: "12px 12px 0px 12px",
@@ -277,7 +279,7 @@ const Downloadbooks = () => {
   return (
     <div>
 
-      
+<h1 className='header'>"hello</h1>
       
       <Box className="App"
           sx={{
@@ -414,8 +416,8 @@ const Downloadbooks = () => {
             //onChange={setSelectedLanguage(lang.current.value)}
             //onChange={()=>{setLanguage(lang.current.value)}}
             >
-            <MenuItem value='None'>Language</MenuItem>
-            <MenuItem value='English'>English</MenuItem>
+            <MenuItem options value='None'>Language</MenuItem>
+            <MenuItem  label="English"  value='English'>English</MenuItem>
             <MenuItem value='Sinhala'>Sinhala</MenuItem>
             <MenuItem value='Tamil'>Tamil</MenuItem>
            

@@ -19,6 +19,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Avatar } from '@mui/material';
 import UserDetails from "../functions/userDetails";
+import useEditProfile from "../hooks/useEditProfile";
 
 
 
@@ -35,8 +36,9 @@ const linkStyles = {
 
 const  Navtop=(props) =>{
   const [users, setUsers] = useState([]);
+  const {editProfile,error,isLoading,isChanged } = useEditProfile();
   const drawerWidth = 240;
-  const navItems = [
+  const navItems_public = [
   { label: 'Publish', to: '/publish' },      // Define paths for your navigation items
   { label: 'Search', to: '/downloadbooks' }, 
   { label: 'AR', to: '/ar' },
@@ -47,28 +49,45 @@ const  Navtop=(props) =>{
   {label: <Avatar src={users.profilePicture} />, to: '/useraccount'}
 ];
 
+const navItems_admin = [
+  { label: 'Publish Rights', to: '/publsihrights' },      // Define paths for your navigation items
+  { label: 'Review', to: '/reviewbooks' }, 
+  //Get an image of a user from a website just to check the frontend
+  //This should be later fetched from database
+  {label: <Avatar src={users.profilePicture} />, to: '/useraccount'}
+];
+  
   const {user}=useAuthContext();
   const {logout}=useLogout();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+  let navItems= null;
 
-  
+  if(user){
+    if(user.role === 'admin'){
+      navItems = navItems_admin
+    }
+    else{
+      navItems = navItems_public
+    }
+    
+  }
   
 
-  
-useEffect(() => {
-  
-  UserDetails()
-  .then((data) => {
-    setUsers(data);
-    console.log(users);
-  })
-  .catch((error) => {
-    console.error(error);
-   
-  })
-  
-},[]);
+
+  useEffect(() => {
+   //console.log("ischanged");
+    UserDetails()
+    .then((data) => {
+      setUsers(data);
+      console.log(users);
+    })
+    .catch((error) => {
+      console.error(error);
+    
+    })
+    
+  },[isChanged]);
 
 
   const handleClick=()=>{
@@ -87,7 +106,7 @@ useEffect(() => {
      
       <Divider />
 
-      {user && (
+      {user &&  (
         <List>
       
         {navItems.map((item) => (

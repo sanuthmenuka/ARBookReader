@@ -1,5 +1,5 @@
-const useAddtoLibrary = async (id) => {
-    console.log("Here")
+const AddtoLibrary = async (id) => {
+      console.log("Here")
       try {
         const queryParams = new URLSearchParams();
         queryParams.append('book_id', id);
@@ -10,8 +10,6 @@ const useAddtoLibrary = async (id) => {
           throw new Error(`response was not ok. Status: ${response.status}`);
         }
         const res= await response.json();
-        
-        
         return res;
       } 
         catch (err) {
@@ -20,7 +18,7 @@ const useAddtoLibrary = async (id) => {
       }
     };
   
-  export default useAddtoLibrary;
+  export default AddtoLibrary;
 
 
 
