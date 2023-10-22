@@ -19,7 +19,10 @@ import { styled } from "@mui/material/styles";
 import { grey, pink } from "@mui/material/colors";
 import Banner from "../components/publishPage/Banner";
 import usePublish from "../hooks/usePublish";
-import { useRef } from "react";
+import UserDetails from "../functions/userDetails";
+import useGetPublisherRights from "../hooks/useGetPublisherRights";
+import {  useRef,useState,useEffect } from "react";
+import RequestPublisherRights from "../components/publishPage/RequetPublesherRights";
 
 const Publish = () => {
   const theme = useTheme();
@@ -144,13 +147,40 @@ const Publish = () => {
   }));
   const { publish, isLoading, error } = usePublish();
 
+  
+  const [isPublisher, setIspublisher] = useState(false);
+  const [isError, setError] = useState(false);
+ 
+
   const langRef = useRef(null);
+
+  useEffect(() => {
+    //get user's details from server
+    
+    UserDetails()
+    .then((data) => {
+      setError(false);
+      
+      //check if the user is alread a publisher and if user is a publisher display the publish books component
+      //if not display the publisher rights requesting component
+      if(data.publisher){
+        setIspublisher(true)  
+      }
+      
+    })
+    .catch((error) => {
+      console.error(error);
+      setError(true);
+    })
+  
+  }, [isPublisher]);
+
 
   const handleFormSubmit = (event) => {
     //event.preventDefault();
     const formData = new FormData();
-    console.log("hereee");
-
+    
+    //add inputs of publish book from to a FormData
     formData.append("title", event.target.title.value);
     formData.append("author", event.target.author.value);
     formData.append("language", event.target.language.value);
@@ -163,17 +193,36 @@ const Publish = () => {
     formData.append("coverImage", event.target.coverImage.files[0]);
     formData.append("uploadedBook", event.target.uploadedBook.files[0]);
 
-    
-    console.log( event.target.title.value);
-    console.log(formData.get("author"));
+    console.log(formData);
+    //send publish form data to server side
     publish(formData);
   };
+
+  const { publisherRights, IsLoading, Error } = useGetPublisherRights();
+    
+
+  const handleRequestSubmit = (event) => {
+      event.preventDefault();
+      const formData = new FormData();
+      
+      formData.append("bio", event.target.bio.value);
+      formData.append("haspublishedbefore", event.target.haspublished.value);
+      formData.append("prevouspublications", event.target.prevouspublications.value);
+      
+      console.log(event.target.bio.value)
+      //send publish form data to server side
+      publisherRights(formData);
+    };
 
   return (
     <OuterContainer>
       <Banner />
+      
+       {/*publisher rights requesting form*/}
+      {!isPublisher && <RequestPublisherRights/> }
 
       {/*  publish form*/}
+      {isPublisher && 
       <form onSubmit={handleFormSubmit}>
         <FormContainer>
           <FormTitle>Publish Your Book</FormTitle>
@@ -188,7 +237,7 @@ const Publish = () => {
               >
                 {/* Input Field for title of the book*/}
                 <Grid item>
-                  <InputLabel>Book Title* </InputLabel>
+                  <InputLabel>Book Title </InputLabel>
                   <TextField
                     label=""
                     id="title"
@@ -197,7 +246,7 @@ const Publish = () => {
                     onChange={(e) => {
                       langRef.current = e.target.value;
                     }}
-                    //required
+                    required
                     variant="outlined"
                     fullWidth
                   />
@@ -205,12 +254,12 @@ const Publish = () => {
 
                 {/* Input Field for author's name*/}
                 <Grid item>
-                  <InputLabel>Author*</InputLabel>
+                  <InputLabel>Author</InputLabel>
                   <TextField
                     label=""
                     name="author"
                     variant="outlined"
-                    //required
+                    required
                     fullWidth
                   />
                 </Grid>
@@ -223,6 +272,7 @@ const Publish = () => {
                     label="Language"
                     name="language"
                     //onChange={()=>{console.log(lang.current.value)}}
+                    required
                     fullWidth
                   >
                     <MenuItem value="English">English</MenuItem>
@@ -239,6 +289,7 @@ const Publish = () => {
                     row // radio btns as a row
                     name="ageCatogory"
                     defaultValue="PG 5+"
+                    required
                   >
                     <FormControlLabel
                       value="PG 5+"
@@ -266,18 +317,14 @@ const Publish = () => {
              
 
           <Grid item>
-          <InputLabel id="genre">Genre*</InputLabel>
+          <InputLabel id="genre">Genre</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="genre"
             label="Genre"
             fullWidth
             name='genre'
-            value={'select genre'}
-            //required
-            
-           
-            
+            required  
           >
             <MenuItem value='Adventure and Fantasy'> Adventure and Fantasy</MenuItem>
             <MenuItem value='Picture Book'> Picture Book</MenuItem>
@@ -289,7 +336,7 @@ const Publish = () => {
 
                 <Grid item>
                   <InputLabel id="ARcontent">
-                    Augmented Reality Content*
+                    Augmented Reality Content
                   </InputLabel>
                   <RadioGroup
                     row // radio btns as a row
@@ -320,8 +367,8 @@ const Publish = () => {
                 flexDirection={"column"}
               >
                 <Grid item>
-                  <InputLabel marginBottom={"10px"}>
-                    Cover Image* {"("}.jpeg .png .jpg{")"}
+                  <InputLabel marginbottom={"10px"}>
+                    Cover Image {"("}.jpeg .png .jpg{")"}
                   </InputLabel>
                   <TextField
                     label=""
@@ -329,13 +376,14 @@ const Publish = () => {
                     inputProps={{ accept: "image/*" }} // this input field only accepts image files
                     fullWidth
                     name="coverImage"
+                    required
                     //onChange={handleImage}
                   />
                 </Grid>
 
                 <Grid item>
-                  <InputLabel marginBottom={"10px"}>
-                    Upload your book* {"("}.pdf .epub{")"}{" "}
+                  <InputLabel marginbottom={"10px"}>
+                    Upload your book {"("}.pdf .epub{")"}{" "}
                   </InputLabel>
                   <TextField
                     label=""
@@ -343,6 +391,7 @@ const Publish = () => {
                     inputProps={{ accept: ".epub , .pdf" }} //this input field only accepts .epub and .pdf files
                     fullWidth
                     name="uploadedBook"
+                    required
                   />
                 </Grid>
 
@@ -399,6 +448,7 @@ const Publish = () => {
           </Box>
         </FormContainer>
       </form>
+      } 
     </OuterContainer>
   );
 };

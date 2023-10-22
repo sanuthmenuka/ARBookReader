@@ -1,5 +1,5 @@
 const filterBooks = async (queryParams) => {
-  console.log("Here")
+  
     try {
       const response = await fetch(`api/book/getBooks?${queryParams.toString()}`);
       if (!response.ok) {
@@ -7,7 +7,7 @@ const filterBooks = async (queryParams) => {
       }
       const data = await response.json();
       
-      console.log("Data received:", data); 
+      
       return data.data.books;
     } 
       catch (err) {
