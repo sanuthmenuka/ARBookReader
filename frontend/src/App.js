@@ -17,6 +17,7 @@ import Pricing from "./pages/Pricing";
 import EditProfile from "./pages/Editprofile";
 import PublsihRights from "./pages/PublishRights";
 import ReviewBooks from "./pages/ReviewBooks";
+import { Box } from "@mui/material";
 
 function App() {
   const { user } = useAuthContext();
