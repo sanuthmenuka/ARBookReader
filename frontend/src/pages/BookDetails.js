@@ -11,6 +11,8 @@ import { grey } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import  addToLibrary from "../functions/addtoLibrary";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const BookDetails = () => {
   const location = useLocation();
@@ -112,19 +114,43 @@ const BookDetails = () => {
 
   const handleAddToLibrary = () => {
    console.log(book._id);
-   console.log("Here")
-
    addToLibrary(book._id)
     .then((res) => {
-      console.log("Added book to your library",res) 
+      console.log("Added book to your library",res) ;
+      //check if the user has an active subscription plan
+      if( res.message === "Success"){
+        //pop up msg to indicate the successful adding to personal library
+        Swal.fire({
+          icon: 'success',
+          title: "Added to your library!",
+          showConfirmButton: false,
+          timer: 2000, // Automatically close after 2 seconds
+        });
+      }
+      else if(res.message === "Activate"){
+        Swal.fire({
+          icon:'error',
+          title: "Please activate your subscription plan!" ,
+          showConfirmButton: false,
+          timer: 2000, // Automatically close after 2 seconds
+        });
+
+      }
+      
+      
     })
     .catch((error) => {
       console.error(error);
+      //pop up msg to indicate that an error occured adding to personal library
+      Swal.fire({
+        icon: 'error',
+        title: 'An error occurred while adding the book.',
+        showConfirmButton: false,
+        timer: 2000,
+      });
       
     })
-    .finally(() => 
-      console.log()
-    )
+   
   };
   
 

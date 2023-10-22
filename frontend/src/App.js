@@ -10,17 +10,22 @@ import Navtop from "./components/Navbar";
 import Downloadbooks from "./pages/Downloadbooks";
 import About from "./pages/About";
 import Footer from "./components/Footer";
-import { Box, Container } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material";
 import AR from "./pages/AR";
 import UserAccount from "./pages/UserAccount";
 import BookDetails from "./pages/BookDetails";
 import Pricing from "./pages/Pricing";
-import Payment from "./pages/Payment";
 import EditProfile from "./pages/Editprofile";
+import PublsihRights from "./pages/PublishRights";
+import ReviewBooks from "./pages/ReviewBooks";
 
 function App() {
   const { user } = useAuthContext();
+  let admin = false;
+  if (user) {
+    if (user.role === "admin") {
+      admin = true;
+    }
+  }
 
   return (
     <Box
@@ -55,22 +60,27 @@ function App() {
             ></Route>
 
             <Route
+              path="/publish"
+              element={user ? <Publish /> : <Navigate to="/" />}
+            ></Route>
+
+            <Route
               path="/downloadbooks"
-              element={user ? <Downloadbooks /> : <Navigate to="/" />}
+              element={user && !admin ? <Downloadbooks /> : <Navigate to="/" />}
             ></Route>
 
             <Route
               path="/about"
-              element={user ? <About /> : <Navigate to="/" />}
+              element={user && !admin ? <About /> : <Navigate to="/" />}
             ></Route>
             <Route
               path="/ar"
-              element={user ? <AR /> : <Navigate to="/" />}
+              element={user && !admin ? <AR /> : <Navigate to="/" />}
             ></Route>
 
             <Route
               path="/pricing"
-              element={user ? <Pricing /> : <Navigate to="/" />}
+              element={user && !admin ? <Pricing /> : <Navigate to="/" />}
             ></Route>
 
             <Route
@@ -80,20 +90,22 @@ function App() {
 
             <Route
               path="/bookdetails/:id"
-              element={user ? <BookDetails /> : <Navigate to="/" />}
-            ></Route>
-            <Route
-              path="/payment/:id"
-              element={user ? <Payment /> : <Navigate to="/" />}
-            ></Route>
-            <Route
-              path="/payment/:id"
-              element={user ? <Payment /> : <Navigate to="/" />}
+              element={user && !admin ? <BookDetails /> : <Navigate to="/" />}
             ></Route>
 
             <Route
               path="/editprofile"
               element={user ? <EditProfile /> : <Navigate to="/" />}
+            ></Route>
+
+            <Route
+              path="/publsihrights"
+              element={user && admin ? <PublsihRights /> : <Navigate to="/" />}
+            ></Route>
+
+            <Route
+              path="/reviewbooks"
+              element={user && admin ? <ReviewBooks /> : <Navigate to="/" />}
             ></Route>
           </Routes>
         </Box>

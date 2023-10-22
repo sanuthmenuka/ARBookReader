@@ -19,6 +19,8 @@ export const useLogin = () => {
       body: JSON.stringify({ email, password }),
     });
     const json = await response.json();
+    const userRole = json.userRole;
+    console.log("User Role:", userRole);
 
     if (!response.ok) {
       setIsLoading(false);
@@ -30,7 +32,7 @@ export const useLogin = () => {
       localStorage.setItem("user", JSON.stringify(json));
 
       // update the auth context
-      dispatch({ type: "LOGIN", payload: json });
+      dispatch({ type: "LOGIN", payload: { ...json, role: userRole } });
 
       // update loading state
       setIsLoading(false);

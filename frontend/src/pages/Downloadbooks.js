@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import BookDetails from "./BookDetails";
+import { useEffect, useState, useRef } from "react";
+import filterBooks from "../functions/filterbooks";
+
 import Box from "@mui/material/Box";
 import {
   Card,
@@ -14,6 +15,7 @@ import {
   Select,
   CardMedia,
   CardContent,
+  TextField,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -27,36 +29,6 @@ const Downloadbooks = () => {
   //The function receives the theme and component's properties in an object which is its single argument.
   const OuterContainer = styled(Box)(() => ({
     marginBottom: "150px",
-  }));
-
-  const SerachComponennentWrapper = styled(Box)(() => ({
-    width: "600px",
-    height: "200px",
-    margin: "10px auto",
-    padding: "10px 20px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-
-    //backgroundColur:'red',
-
-    [theme.breakpoints.down("sm")]: {
-      width: "100vw",
-    },
-  }));
-  const Search = styled(Box)(() => ({
-    display: "flex",
-    alignItems: "center",
-    ///position: 'relative',
-    width: "600px",
-    height: "60px",
-    border: "1px solid #ccc",
-    borderRadius: "30px",
-    backgroundColor: grey[50],
-    //marginRight: theme.spacing(2),
-    //marginLeft: 0,
-    //width: '100%',
-    //height:'60px',
   }));
 
   const SearchIconWrapper = styled(Box)(() => ({
@@ -73,19 +45,6 @@ const Downloadbooks = () => {
     alignItems: "center",
     marginRight: "0px",
     marginLeft: "auto",
-  }));
-
-  const StyledInputBase = styled(InputBase)(() => ({
-    width: "150%",
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingLeft: "20px",
-
-    [theme.breakpoints.down("sm")]: {
-      width: "70vw",
-    },
   }));
 
   const AppBarWrapper = styled(Box)(() => ({
@@ -133,6 +92,7 @@ const Downloadbooks = () => {
     display: "flex",
     width: "auto",
     color: "white",
+    margin: "0px 5px",
     transition: "background-color 0.3s", // Add a smooth transition effect
     "&:hover": {
       backgroundColor: pink[100], // Background color on hover
@@ -191,62 +151,134 @@ const Downloadbooks = () => {
   const CardMediaComponent = styled(CardMedia)(() => ({
     maxWidth: "100%",
     padding: "16px 16px 0px 16px",
+    height: "30vh",
 
     [theme.breakpoints.down("md")]: {
       padding: "12px 12px 0px 12px",
     },
   }));
 
+  //Store all the books
+  const [allBooks, setAllBooks] = useState([]);
+  //Store the books that gets displayed
   const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null); // Store the selected book
-
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setError] = useState(false);
   const navigate = useNavigate();
 
+  // Initialize state for the selected values of the dropdown menus
+  const [selectedLanguage, setSelectedLanguage] = useState("None");
+  const [selectedGenre, setSelectedGenre] = useState("None");
+  const [selectedAgeCategory, setSelectedAgeCategory] = useState("None");
+
+  //Intialize state for navbar options -- All,Recent,Most popolar or AR
+  const [selectedAppbarbtn, setselectedAppbarbtn] = useState("All");
+
+  //Store the key words in the search bar
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Fetch all books at the initial rendering of the component and store data in AllBooks
   useEffect(() => {
-    fetch("api/book/getBooks")
-      .then((respones) => {
-        return respones.json();
-      })
+    const queryParams = new URLSearchParams();
+    setIsLoading(true);
+    //Fetch data from database
+    filterBooks(queryParams)
       .then((data) => {
-        setBooks(data);
+        setError(false);
+        setAllBooks(data);
       })
-      .catch((err) => {
-        console.log("rejected", err);
+      .catch((error) => {
+        console.error(error);
+        setError(true);
       })
       .finally(() => setIsLoading(false));
   }, []);
 
-  const handleBookSelect = (book) => {
-    setSelectedBook(book);
-    navigate(`/bookdetails/${book._id}`, { state: { book } });
+  //get search results
+  const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    setSearchTerm(searchWord);
+    if (searchWord.length > 0) {
+      setselectedAppbarbtn("None");
+      console.log("here");
+      //use Allbooks to search
+      const newFilter = allBooks.filter((value) => {
+        const titleMatches = value.title
+          .toLowerCase()
+          .includes(searchWord.toLowerCase());
+        const authorMatches = value.author
+          .toLowerCase()
+          .includes(searchWord.toLowerCase());
+
+        // Return true if either the title or the author matches the search term
+        return titleMatches || authorMatches;
+      });
+      setBooks(newFilter);
+    } else {
+      setselectedAppbarbtn("All");
+    }
   };
 
-  //searching and filtering
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("None");
-  const [selectedLanguage, setSelectedLanguage] = useState("Language");
-  const [selectedAgeCategory, setSelectedAgeCategory] =
-    useState("Age Category");
-  const [isInputFocused, setInputFocused] = useState(false);
+  //Filtering data based on language, genre and age category.
+  //this useeffect gets called whenever any of those values are changed
+  useEffect(() => {
+    if (selectedAppbarbtn !== "None") {
+      setSearchTerm("");
+      // Construct the API query based on selected values for language, genre and age category
+      const queryParams = new URLSearchParams();
+      queryParams.append("selectedAppbarOption", selectedAppbarbtn);
 
-  const filteredBooks = books.filter((book) => {
-    const titleMatch = book.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const genreMatch = selectedGenre === "None" || book.genre === selectedGenre;
-    const languageMatch =
-      selectedLanguage === "Language" || book.language === selectedLanguage;
-    const ageCategoryMatch =
-      selectedAgeCategory === "Age Category" ||
-      book.ageCategory === selectedAgeCategory;
+      //add selected langauage to the query.
+      //Here 'none' means they have not selected any specific value,just the defualt one
+      if (selectedLanguage !== "None") {
+        queryParams.append("language", selectedLanguage);
+      }
 
-    return titleMatch && genreMatch && languageMatch && ageCategoryMatch;
-  });
+      //append selected genre to the query
+      if (selectedGenre !== "None") {
+        queryParams.append("genre", selectedGenre);
+      }
+
+      //append selected age category to the query
+      if (selectedAgeCategory !== "None") {
+        queryParams.append("ageCategory", selectedAgeCategory);
+      }
+
+      setIsLoading(true);
+      //function call to get the filtered set of books
+      filterBooks(queryParams)
+        .then((data) => {
+          setError(false);
+          setBooks(data);
+        })
+        .catch((error) => {
+          console.error(error);
+          setError(true);
+        })
+        .finally(() => setIsLoading(false));
+    }
+  }, [selectedLanguage, selectedGenre, selectedAgeCategory, selectedAppbarbtn]);
+
+  //when clicked on a book card,this navigates user to the book details page
+  //where user can find more details about the selected book
+  const handleBookSelect = (book) => {
+    navigate(`/bookdetails/${book._id}`, { state: { book } }); // book object is passed as a second argument
+  };
 
   return (
-    <OuterContainer>
-      <SerachComponennentWrapper className="App">
+    <div>
+      <Box
+        className="App"
+        sx={{
+          width: "600px",
+          height: "200px",
+          margin: "10px auto",
+          padding: "10px 20px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+        }}
+      >
         <Typography
           align="center"
           variant="h4"
@@ -256,22 +288,37 @@ const Downloadbooks = () => {
           {" "}
           Search Books
         </Typography>
-        <Search>
-          <StyledInputBase
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            ///position: 'relative',
+            width: "600px",
+            height: "60px",
+            border: "1px solid #ccc",
+            borderRadius: "30px",
+            backgroundColor: grey[50],
+          }}
+        >
+          <InputBase
+            sx={{
+              width: "150%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: "20px",
+            }}
             placeholder="Search your favorite books here"
             inputProps={{ "aria-label": "search" }}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={() => setInputFocused(true)}
-            onBlur={() => setInputFocused(false)}
-            autoFocus={isInputFocused} // Set autoFocus based on isInputFocused state
+            onChange={handleFilter}
+            value={searchTerm}
           />
 
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
-        </Search>
-      </SerachComponennentWrapper>
+        </Box>
+      </Box>
 
       <AppBarWrapper>
         <AppBarComponent position="static">
@@ -289,19 +336,57 @@ const Downloadbooks = () => {
             }}
           >
             <Grid item xs={2} sm={3}>
-              <AppbarButton>All</AppbarButton>
+              <AppbarButton
+                //sx={{ backgroundColor: navbarBtnColor }}
+                //onClick={() => setnavbarBtnColor(pink[100])}
+                sx={{
+                  backgroundColor:
+                    selectedAppbarbtn === "All" ? pink[100] : "transparent",
+                }}
+                onClick={() => setselectedAppbarbtn("All")}
+              >
+                {" "}
+                All
+              </AppbarButton>
             </Grid>
 
             <Grid item xs={2} sm={3}>
-              <AppbarButton>Recent</AppbarButton>
+              <AppbarButton
+                sx={{
+                  backgroundColor: () =>
+                    selectedAppbarbtn === "Recent" ? pink[100] : "transparent",
+                }}
+                onClick={() => setselectedAppbarbtn("Recent")}
+              >
+                Recent
+              </AppbarButton>
             </Grid>
 
             <Grid item xs={4} sm={3}>
-              <AppbarButton> Most Popular</AppbarButton>
+              <AppbarButton
+                sx={{
+                  backgroundColor: () =>
+                    selectedAppbarbtn === "Most Popular"
+                      ? pink[100]
+                      : "transparent",
+                }}
+                onClick={() => setselectedAppbarbtn("Most Popular")}
+              >
+                {" "}
+                Most Popular
+              </AppbarButton>
             </Grid>
 
             <Grid item xs={2} sm={3}>
-              <AppbarButton>AR</AppbarButton>
+              <AppbarButton
+                sx={{
+                  backgroundColor: () =>
+                    selectedAppbarbtn === "AR" ? pink[100] : "transparent",
+                }}
+                onClick={() => setselectedAppbarbtn("AR")}
+              >
+                AR
+              </AppbarButton>
             </Grid>
           </Grid>
 
@@ -321,10 +406,12 @@ const Downloadbooks = () => {
                 label="genre"
                 labelId="demo-simple-select-label"
                 id="genre"
-                fullWidth
                 name="genre"
+                fullWidth
                 value={selectedGenre}
-                onChange={(e) => setSelectedGenre(e.target.value)}
+                onChange={(event) => {
+                  setSelectedGenre(event.target.value);
+                }}
               >
                 <MenuItem value="None">Genre</MenuItem>
                 <MenuItem value="Adventure and Fantasy">
@@ -349,15 +436,23 @@ const Downloadbooks = () => {
                 labelId="demo-simple-select-label"
                 id="lang"
                 label="Language"
-                name="language"
+                name="lang"
+                fullWidth
                 value={selectedLanguage}
-                onChange={(e) => setSelectedLanguage(e.target.value)}
+                onChange={(event) => {
+                  setSelectedLanguage(event.target.value);
+                }}
+                //onChange={setSelectedLanguage(lang.current.value)}
+                //onChange={()=>{setLanguage(lang.current.value)}}
               >
-                <MenuItem value="Language">Language</MenuItem>
-                <MenuItem value="English">English</MenuItem>
+                <MenuItem options value="None">
+                  Language
+                </MenuItem>
+                <MenuItem label="English" value="English">
+                  English
+                </MenuItem>
                 <MenuItem value="Sinhala">Sinhala</MenuItem>
                 <MenuItem value="Tamil">Tamil</MenuItem>
-                <MenuItem value="Other">Other</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={3} sm={4} maxWidth="100%">
@@ -368,9 +463,12 @@ const Downloadbooks = () => {
                 label="age"
                 name="age"
                 value={selectedAgeCategory}
-                onChange={(e) => setSelectedAgeCategory(e.target.value)}
+                onChange={(event) => {
+                  setSelectedAgeCategory(event.target.value);
+                }}
+                fullWidth
               >
-                <MenuItem value="Age Category">Age Category</MenuItem>
+                <MenuItem value="None">Age Category</MenuItem>
                 <MenuItem value="PG 5+">PG 5+</MenuItem>
                 <MenuItem value="PG 7+">PG 7+</MenuItem>
                 <MenuItem value="PG 10+">PG 10+</MenuItem>
@@ -385,44 +483,49 @@ const Downloadbooks = () => {
         <Box marginLeft={"100px"}>Loading...</Box>
       ) : (
         <div>
-          <BooksWrapper>
-            {filteredBooks.map((book) => (
-              <Card
-                onClick={() => handleBookSelect(book)}
-                sx={{
-                  maxWidth: "100%",
-                  transition: "transform 0.2s ease",
-                  ":hover": {
-                    transform: "scale(1.07)",
-                  },
-                }}
-              >
-                <CardMediaComponent
-                  component="img"
-                  height="auto"
-                  image={book.image}
-                  alt="green iguana"
-                />
-                <CardContentComponent>
-                  <Typography fontWeight="bold">{book.title}</Typography>
-                  <Typography color={pink[400]}> by {book.author}</Typography>
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    spacing="2"
-                    color={yellow[800]}
-                    gap="2px"
-                  >
-                    <StarRoundedIcon fontSize="small" />
-                    <Typography>{book.rating} </Typography>
-                  </Box>
-                </CardContentComponent>
-              </Card>
-            ))}
-          </BooksWrapper>
+          {isError ? (
+            <Box marginLeft={"100px"}>{"An Error Occured"}</Box>
+          ) : (
+            <BooksWrapper>
+              {books.map((book) => (
+                <Card
+                  key={book._id}
+                  onClick={() => handleBookSelect(book)}
+                  sx={{
+                    maxWidth: "100%",
+                    transition: "transform 0.2s ease",
+                    ":hover": {
+                      transform: "scale(1.07)",
+                    },
+                  }}
+                >
+                  <CardMediaComponent
+                    component="img"
+                    height="auto"
+                    image={book.image}
+                    alt="green iguana"
+                  />
+                  <CardContentComponent>
+                    <Typography fontWeight="bold">{book.title}</Typography>
+                    <Typography color={pink[400]}> by {book.author}</Typography>
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      spacing="2"
+                      color={yellow[800]}
+                      gap="2px"
+                    >
+                      <StarRoundedIcon fontSize="small" />
+                      <Typography>{book.ratings} </Typography>
+                    </Box>
+                  </CardContentComponent>
+                </Card>
+              ))}
+            </BooksWrapper>
+          )}
         </div>
       )}
-    </OuterContainer>
+    </div>
   );
 };
 export default Downloadbooks;

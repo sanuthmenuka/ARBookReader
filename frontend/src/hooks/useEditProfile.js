@@ -4,6 +4,7 @@ import { useState } from 'react'
 const useEditProfile = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
+  const [isChanged, setIsChanged] = useState(false)
 
   const editProfile = async (FormData) => {
     setError(null)
@@ -20,13 +21,15 @@ const useEditProfile = () => {
     }
     if (response.ok) {
         // update loading state
-        console.log("edit profile request sent successfully");
+        console.log("changed profile details successfully");
+        setIsChanged(!isChanged);
+       // console.log(isChanged);
         
       }
       setIsLoading(false)
   }
 
-  return { editProfile,error,isLoading }
+  return { editProfile,error,isLoading,isChanged }
 };
  
 export default useEditProfile;
