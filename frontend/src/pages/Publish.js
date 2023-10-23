@@ -202,8 +202,8 @@ const Publish = () => {
     formData.append("tag2", event.target.tag2.value);
     formData.append("coverImage", event.target.coverImage.files[0]);
     formData.append("uploadedBook", event.target.uploadedBook.files[0]);
-    if (arContent === "Yes" && zipOrRarFile) {
-      formData.append("zipOrRarFile", zipOrRarFile);
+    if (arContent === "Yes" && event.target.zipOrRarFile.file[0]) {
+      formData.append("zipOrRarFile", event.target.zipOrRarFile.file[0]);
     }
 
     console.log(formData);
@@ -393,13 +393,8 @@ const Publish = () => {
                         fullWidth
                         name="zipOrRarFile"
                         required
-                        onChange={handleZipOrRarFileChange}
+                        //onChange={handleZipOrRarFileChange}
                       />
-                      {zipOrRarFileName && (
-                        <Typography variant="caption">
-                          Selected ZIP/RAR file: {zipOrRarFileName}
-                        </Typography>
-                      )}
                     </Grid>
                   )}
                 </Grid>
