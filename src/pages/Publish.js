@@ -145,21 +145,6 @@ const Publish = () => {
       margin: "10px 5px",
     },
   }));
-
-  const [arContent, setARContent] = useState("No");
-  const [zipOrRarFile, setZipOrRarFile] = useState(null);
-  const [zipOrRarFileName, setZipOrRarFileName] = useState("");
-
-  const handleARContentChange = (event) => {
-    setARContent(event.target.value);
-  };
-
-  const handleZipOrRarFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setZipOrRarFile(selectedFile);
-    setZipOrRarFileName(selectedFile ? selectedFile.name : "");
-  };
-
   const { publish, isLoading, error } = usePublish();
 
   const [isPublisher, setIspublisher] = useState(false);
@@ -187,7 +172,7 @@ const Publish = () => {
   }, [isPublisher]);
 
   const handleFormSubmit = (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     const formData = new FormData();
 
     //add inputs of publish book from to a FormData
@@ -202,9 +187,6 @@ const Publish = () => {
     formData.append("tag2", event.target.tag2.value);
     formData.append("coverImage", event.target.coverImage.files[0]);
     formData.append("uploadedBook", event.target.uploadedBook.files[0]);
-    if (arContent === "Yes" && event.target.zipOrRarFile.file[0]) {
-      formData.append("zipOrRarFile", event.target.zipOrRarFile.file[0]);
-    }
 
     console.log(formData);
     //send publish form data to server side
@@ -364,10 +346,10 @@ const Publish = () => {
                       Augmented Reality Content
                     </InputLabel>
                     <RadioGroup
-                      row
+                      row // radio btns as a row
                       name="ARcontent"
-                      value={arContent}
-                      onChange={handleARContentChange}
+                      defaultValue="No"
+                      //required
                     >
                       <FormControlLabel
                         value="Yes"
@@ -381,22 +363,6 @@ const Publish = () => {
                       />
                     </RadioGroup>
                   </Grid>
-                  {arContent === "Yes" && (
-                    <Grid item>
-                      <InputLabel marginbottom={"10px"}>
-                        ZIP or RAR File {"(.zip, .rar)"}
-                      </InputLabel>
-                      <TextField
-                        label=""
-                        type="file"
-                        inputProps={{ accept: ".zip, .rar" }}
-                        fullWidth
-                        name="zipOrRarFile"
-                        required
-                        //onChange={handleZipOrRarFileChange}
-                      />
-                    </Grid>
-                  )}
                 </Grid>
               </FormImage>
 

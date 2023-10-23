@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 const usePublish = () => {
   const [isLoading, setIsLoading] = useState(null);
   const [error, setError] = useState(null);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   const publish = async (FormData) => {
     setIsLoading(true);
     setError(null);
 
-    console.log("publish request made",FormData);
-    const response = await fetch("/api/book/addBook", {
+    console.log("publish request made", FormData);
+    const response = await fetch(`${apiUrl}/api/book/addBook`, {
       method: "POST",
       body: FormData,
     });
