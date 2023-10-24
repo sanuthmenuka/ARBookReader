@@ -4,6 +4,7 @@ const removeFromLibrary = async (id) => {
   try {
     const response = await fetch(`${apiUrl}/api/user/removeLibraryBook/${id}`, {
       method: "DELETE",
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error(`response was not ok. Status: ${response.status}`);

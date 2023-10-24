@@ -6,6 +6,7 @@ const getPendingPublisherRightRequests = async () => {
       `${apiUrl}/api/publisherright/getpublisherrightsrequest`,
       {
         method: "GET",
+        credentials: "include",
       }
     );
     if (!response.ok) {

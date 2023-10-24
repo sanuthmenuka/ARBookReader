@@ -8,6 +8,7 @@ const AddtoLibrary = async (id) => {
       `${apiUrl}/api/user/addToLibrary?${queryParams.toString()}`,
       {
         method: "GET",
+        credentials: "include",
       }
     );
     if (!response.ok) {

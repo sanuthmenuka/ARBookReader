@@ -3,10 +3,14 @@ const filterBooks = async (queryParams) => {
 
   try {
     const response = await fetch(
-      `${apiUrl}/api/book/getBooks?${queryParams.toString()}`
+      `${apiUrl}/api/book/getBooks?${queryParams.toString()}`,
+      {
+        // Specify the HTTP method as GET
+        credentials: "include",
+      }
     );
     if (!response.ok) {
-      throw new Error(`esponse was not ok. Status: ${response.status}`);
+      throw new Error(`response was not ok. Status: ${response.status}`);
     }
     const data = await response.json();
 

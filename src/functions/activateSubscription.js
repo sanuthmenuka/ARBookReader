@@ -6,6 +6,7 @@ const activateSubscription = async (subscriptionid) => {
       `${apiUrl}/api/user/activateSubscription/${subscriptionid}`,
       {
         method: "POST",
+        credentials: "include",
       }
     );
     if (!response.ok) {

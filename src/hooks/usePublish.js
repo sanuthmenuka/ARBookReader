@@ -12,6 +12,7 @@ const usePublish = () => {
     const response = await fetch(`${apiUrl}/api/book/addBook`, {
       method: "POST",
       body: FormData,
+      credentials: "include",
     });
     const json = await response.json();
 

@@ -9,6 +9,7 @@ const GrantPublisherRights = async (requestId, access) => {
       `${apiUrl}/api/publisherright/grantpublisherights?${queryParams.toString()}`,
       {
         method: "GET",
+        credentials: "include",
       }
     );
     if (!response.ok) {

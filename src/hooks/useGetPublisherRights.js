@@ -15,6 +15,7 @@ const useGetPublisherRights = () => {
       {
         method: "POST",
         body: FormData,
+        credentials: "include",
       }
     );
     const json = await response.json();

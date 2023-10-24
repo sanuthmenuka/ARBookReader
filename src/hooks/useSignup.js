@@ -26,6 +26,7 @@ export const useSignup = () => {
         password,
         confirmPassword,
       }),
+      credentials: "include",
     });
     const json = await response.json();
 

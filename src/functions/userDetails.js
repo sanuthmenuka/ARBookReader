@@ -3,7 +3,15 @@ const UserDetails = async () => {
 
   try {
     console.log(`${apiUrl}`);
-    const response = await fetch(`${apiUrl}/api/user/getUserDetails`);
+    console.log("fetching");
+    const response = await fetch(`${apiUrl}/api/user/getUserDetails`, {
+      method: "GET", // Specify the HTTP method as GET
+      headers: {
+        // You can add any necessary headers, e.g., for authentication
+        "Content-Type": "application/json", // Set the Content-Type if needed
+      },
+      credentials: "include",
+    });
     if (!response.ok) {
       throw new Error(`response was not ok. Status: ${response.status}`);
     }

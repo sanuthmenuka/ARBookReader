@@ -2,7 +2,10 @@ const UnreviewedBooks = async () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   try {
-    const response = await fetch(`${apiUrl}/api/book/getUnreviewedBooks`);
+    const response = await fetch(`${apiUrl}/api/book/getUnreviewedBooks`, {
+      method: "GET",
+      credentials: "include",
+    });
     if (!response.ok) {
       throw new Error(`response was not ok. Status: ${response.status}`);
     }

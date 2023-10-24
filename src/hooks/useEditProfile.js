@@ -13,6 +13,7 @@ const useEditProfile = () => {
     const response = await fetch(`${apiUrl}/api/user/editprofile`, {
       method: "POST",
       body: FormData,
+      credentials: "include",
     });
     const json = await response.json();
 

@@ -6,6 +6,7 @@ const removePublication = async (id) => {
       `${apiUrl}/api/book/removePublishedBook/${id}`,
       {
         method: "DELETE",
+        credentials: "include",
       }
     );
     if (!response.ok) {

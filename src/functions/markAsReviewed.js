@@ -4,6 +4,7 @@ const markAsReviewed = async (id) => {
   try {
     const response = await fetch(`${apiUrl}/api/book/markasreviewed/${id}`, {
       method: "POST",
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error(`response was not ok. Status: ${response.status}`);
