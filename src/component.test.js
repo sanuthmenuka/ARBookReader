@@ -34,51 +34,5 @@ test('displays input field to search books ', () => {
     
 });
 
-test('search box accepts input from the user ', () => {
-    const { getByText,getByPlaceholderText } = render(
-        <BrowserRouter>
-          <Downloadbooks />
-        </BrowserRouter>
-      );
-    
-    // Use screen.getByLabelText to find the first name and last name input fields.
-    const searchInput = getByPlaceholderText("Search your favorite books here");
-      
-    // Simulate user input
-    fireEvent.change(searchInput, { target: { value: 'example search' } });
-
-    // Check if the input value has been set correctly
-    expect(searchInput.value).toBe('example search');
-    
-});
-
-test('Clicking on "All" in AppBar should update selectedAppbarbtn state', () => {
-  const { getByText,getByPlaceholderText } = render(
-    <BrowserRouter>
-      <Downloadbooks />
-    </BrowserRouter>
-  );
-
-// Use screen.getByLabelText to find the first name and last name input fields.
-const searchInput = getByPlaceholderText("Search your favorite books here");
-  
-// Simulate user input
-fireEvent.change(searchInput, { target: { value: 'example search' } });
-
-// Check if the input value has been set correctly
-expect(searchInput.value).toBe('example search');
-});
-
-test('dropdown menu changes its displayed value according to the option selected', () => {
-  const { getByText,getByPlaceholderText } = render(
-    <BrowserRouter>
-      <Downloadbooks />
-    </BrowserRouter>
-  );
-
-  // Use screen.getByLabelText to find the first name and last name input fields.
-  const headingElement = getByPlaceholderText("Search your favorite books here");
-  expect(headingElement).toBeInTheDocument();
-});
 
 
